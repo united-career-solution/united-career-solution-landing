@@ -1,29 +1,58 @@
-name: Manual Deploy to Server
+name: Deploy Landing Page
 
 on:
   workflow_dispatch:
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v6
 
-      - name: Deploy to Server via SSH
-        uses: appleboy/ssh-action@v1.0.3
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Next.js App
+        run: npm run build
+        env:
+          NODE_ENV: production
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+
+      - name: Prepare Standalone Output
+        run: |
+          cp -R public .next/standalone/ || true
+          cp -R .next/static .next/standalone/.next/ || true
+
+      - name: Deploy to Server via SCP
+        uses: appleboy/scp-action@v1.0.0
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          source: ".next/standalone/"
+          target: "/var/www/united-career-solution/landing"
+          strip_components: 2
+
+      - name: Start/Restart Server with PM2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
           script: |
             # Load NVM and Profile
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
-            cd ${{ secrets.SERVER_DESTINATION }}
-            git pull origin main
-            npm install
-            npm run build
-            pm2 restart landing-page || pm2 start npm --name "landing-page" -- start
+            cd /var/www/united-career-solution/landing
+            pm2 restart ecosystem.config.js --update-env || pm2 start ecosystem.config.js
