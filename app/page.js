@@ -39,12 +39,12 @@ const StarIcon = () => (
 );
 
 const testimonials = [
-  { name: "Sarah J.", role: "Software Engineer, Placed in US", text: "I struggled for months getting AI rejections. UCS completely rebuilt my strategy and within 4 weeks, I had 3 offers." },
-  { name: "Mark D.", role: "Hiring Manager, FinTech", text: "We were drowning in unqualified resumes. UCS brought us 4 pre-vetted senior devs in 72 hours. Outstanding service." },
+  { name: "Rahul S.", role: "Software Engineer, Placed in US", text: "I struggled for months getting AI rejections. UCS completely rebuilt my strategy and within 4 weeks, I had 3 offers." },
+  { name: "Ankit V.", role: "Hiring Manager, FinTech", text: "We were drowning in unqualified resumes. UCS brought us 4 pre-vetted senior devs in 72 hours. Outstanding service." },
   { name: "Priya M.", role: "Data Scientist, Placed in UK", text: "They don't just apply for jobs—they actively network for you. My portfolio was positioned perfectly for the UK market." },
-  { name: "David L.", role: "VP of Engineering", text: "Speed and quality. That's what you get. Every candidate we interviewed from them was a solid fit." },
-  { name: "Elena R.", role: "Product Manager, Placed in US", text: "The interview prep was game-changing. I walked into my FAANG interviews feeling completely prepared and confident." },
-  { name: "James W.", role: "Startup Founder", text: "As a small team, we don't have an internal recruiter. UCS acts as our strategic partner for rapid scaling." },
+  { name: "Rohit K.", role: "VP of Engineering", text: "Speed and quality. That's what you get. Every candidate we interviewed from them was a solid fit." },
+  { name: "Sneha I.", role: "Product Manager, Placed in US", text: "The interview prep was game-changing. I walked into my FAANG interviews feeling completely prepared and confident." },
+  { name: "Neha G.", role: "Startup Founder", text: "As a small team, we don't have an internal recruiter. UCS acts as our strategic partner for rapid scaling." },
 ];
 
 export default function Home() {
@@ -189,9 +189,13 @@ export default function Home() {
       </section>
 
       {/* 4. STATS SECTION */}
-      <section className="py-24 px-6 bg-brand-dark text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5" />
-        <div className="max-w-6xl mx-auto relative z-10 grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
+      <section className="py-20 px-6 bg-brand-dark text-white relative overflow-hidden">
+        {/* Background texture */}
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.08]" />
+        {/* Gradient overlay for depth */}
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-dark via-brand-dark/90 to-brand-secondary/20" />
+
+        <div className="max-w-5xl mx-auto relative z-10 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {[
             { num: 200, suffix: "+", label: "Candidates Placed" },
             { num: 50, suffix: "+", label: "Hiring Partners" },
@@ -200,21 +204,23 @@ export default function Home() {
           ].map((stat, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={ready ? { opacity: 1, scale: 1 } : undefined}
-              viewport={ready ? { once: true, amount: 0.2 } : undefined}
-              transition={{ delay: i * 0.1, duration: 0.5, type: "spring", stiffness: 100 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={ready ? { opacity: 1, y: 0 } : undefined}
+              viewport={ready ? { once: true, amount: 0.3 } : undefined}
+              transition={{ delay: i * 0.12, duration: 0.6, type: "spring", stiffness: 80, damping: 14 }}
+              whileHover={{ scale: 1.05, transition: { duration: 0.25 } }}
+              className="flex flex-col items-center justify-center bg-white/[0.06] backdrop-blur-sm border border-white/10 rounded-2xl py-6 px-4 md:py-8 md:px-6 shadow-lg shadow-black/10 transition-colors duration-300 hover:bg-white/[0.1] hover:border-white/20"
             >
-              <div className="text-4xl md:text-5xl lg:text-6xl font-bold font-heading text-brand-accent mb-2">
+              <div className="text-3xl md:text-4xl font-bold font-heading text-brand-accent mb-2">
                 {stat.num === 48 ? (
-                  <span className="tabular-nums font-heading">
-                    48<span className="text-2xl md:text-4xl">{stat.suffix}</span>
+                  <span className="tabular-nums font-heading whitespace-nowrap">
+                    48–72 Hrs
                   </span>
                 ) : (
                   <AnimatedCounter end={stat.num} suffix={stat.suffix} prefix={stat.prefix} className="tabular-nums font-heading" />
                 )}
               </div>
-              <p className="text-brand-muted font-medium">{stat.label}</p>
+              <p className="text-gray-300 font-semibold tracking-wide text-xs md:text-sm">{stat.label}</p>
             </motion.div>
           ))}
         </div>

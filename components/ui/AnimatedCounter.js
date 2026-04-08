@@ -5,7 +5,7 @@ import { useInView, motion } from "framer-motion";
 
 export default function AnimatedCounter({
     end,
-    duration = 1,
+    duration = 2.5,
     suffix = "",
     prefix = "",
     className = "",
