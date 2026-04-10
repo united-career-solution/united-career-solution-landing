@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import AnimatedCounter from "@/components/ui/AnimatedCounter";
@@ -15,6 +16,12 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 
 // Safe SVG Icons
 const CheckCircle = () => (
+  <svg className="w-6 h-6 text-brand-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+  </svg>
+);
+
+const CheckCircleLight = () => (
   <svg className="w-6 h-6 text-brand-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
   </svg>
@@ -37,6 +44,117 @@ const StarIcon = () => (
     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
   </svg>
 );
+
+// Animation variants
+const fadeInUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, delay: i * 0.1, ease: "easeOut" },
+  }),
+};
+
+const staggerContainer = {
+  hidden: { opacity: 1 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.12 },
+  },
+};
+
+const staggerItem = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
+};
+
+const imageReveal = {
+  hidden: { opacity: 0, scale: 1.05 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.7, ease: "easeOut" },
+  },
+};
+
+const cardReveal = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+};
+
+const textRevealTitle = {
+  hidden: { opacity: 0, y: 15 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.9, delay: 0.50, ease: "easeOut" },
+  },
+};
+
+const textRevealDesc = {
+  hidden: { opacity: 0, y: 15 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, delay: 0.4, ease: "easeOut" },
+  },
+};
+
+// "Why We Are Different" feature data with images
+const whyDifferentFeatures = [
+  {
+    title: "No random job applications",
+    desc: "Every application is targeted, personalized, and strategic.",
+    image: "/images/why-different/targeted-search.png",
+  },
+  {
+    title: "No fake promises",
+    desc: "Transparent tracking and realistic expectations, always.",
+    image: "/images/why-different/transparency-metrics.png",
+  },
+  {
+    title: "Strategic job targeting",
+    desc: "We match skills exactly to what hiring managers seek.",
+    image: "/images/why-different/strategic-targeting.png",
+  },
+  {
+    title: "Real recruiter connections",
+    desc: "Bypassing the ATS black hole via direct outreach.",
+    image: "/images/why-different/recruiter-connections.png",
+  },
+  {
+    title: "Dedicated support",
+    desc: "1-on-1 guidance from strategy to salary negotiation.",
+    image: "/images/why-different/dedicated-support.png",
+  },
+];
+
+// Services data
+const candidateServices = [
+  "Visa-Aligned Employment Opportunities",
+  "Personalized Career Guidance",
+  "Professional Training Programs",
+  "Interview Preparation & Support",
+  "Expert Recruiter Counselling",
+  "End-to-End Resume to Offer Support",
+];
+
+const employerServices = [
+  "Access to Pre-Screened Candidates",
+  "Visa-Ready Talent Pool",
+  "Efficient Recruitment Process",
+  "Dedicated Recruitment Support",
+  "Industry-Specific Talent Matching",
+  "End-to-End Hiring Assistance",
+];
 
 const testimonials = [
   { name: "Rahul S.", role: "Software Engineer, Placed in US", text: "I struggled for months getting AI rejections. UCS completely rebuilt my strategy and within 4 weeks, I had 3 offers." },
@@ -152,12 +270,13 @@ export default function Home() {
       </section>
 
       {/* 3. WHY WE ARE DIFFERENT */}
-      <section className="py-24 px-6 relative bg-white">
+      <section className="py-24 px-6 relative bg-white overflow-hidden">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
             <SectionHeading center={true}>Why We Are Different</SectionHeading>
@@ -166,23 +285,59 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              { title: "No random job applications", desc: "Every application is targeted, personalized, and strategic." },
-              { title: "No fake promises", desc: "Transparent tracking and realistic expectations, always." },
-              { title: "Strategic job targeting", desc: "We match skills exactly to what hiring managers seek." },
-              { title: "Real recruiter connections", desc: "Bypassing the ATS black hole via direct outreach." },
-              { title: "Dedicated support", desc: "1-on-1 guidance from strategy to salary negotiation." },
-            ].map((feature, i) => (
-              <Card key={i} delay={i * 0.1} className="flex gap-4">
-                <div className="mt-1 flex-shrink-0">
-                  <CheckCircle />
+          <div className="flex flex-wrap justify-center gap-8">
+            {whyDifferentFeatures.map((feature, i) => (
+              <motion.div
+                key={i}
+                variants={cardReveal}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+                whileHover={{ y: -8, transition: { duration: 0.3, ease: "easeOut" } }}
+                className="group relative bg-brand-surface rounded-2xl border border-brand-border overflow-hidden transition-shadow duration-300 hover:shadow-warm-lg w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)]"
+              >
+                {/* Animated Top Border on Hover */}
+                <div className="absolute top-0 left-0 right-0 h-1 bg-brand-accent transform -translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-10" />
+
+                {/* Image */}
+                <motion.div
+                  variants={imageReveal}
+                  className="relative w-full aspect-[16/10] overflow-hidden"
+                >
+                  <Image
+                    src={feature.image}
+                    alt={feature.title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
+                  {/* Subtle gradient overlay for text readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
+                </motion.div>
+
+                {/* Content */}
+                <div className="p-6">
+                  <div className="flex items-start gap-3">
+                    <div className="mt-1 flex-shrink-0">
+                      <CheckCircle />
+                    </div>
+                    <div>
+                      <motion.h3
+                        variants={textRevealTitle}
+                        className="text-xl font-bold mb-2 text-brand-dark"
+                      >
+                        {feature.title}
+                      </motion.h3>
+                      <motion.p
+                        variants={textRevealDesc}
+                        className="text-brand-muted leading-relaxed"
+                      >
+                        {feature.desc}
+                      </motion.p>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-xl font-bold mb-2 text-brand-dark">{feature.title}</h3>
-                  <p className="text-brand-muted leading-relaxed">{feature.desc}</p>
-                </div>
-              </Card>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -229,6 +384,20 @@ export default function Home() {
       {/* 5. SERVICES SNAPSHOT */}
       <section className="py-24 px-6 bg-brand-bg relative">
         <div className="max-w-6xl mx-auto">
+          {/* Section Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <SectionHeading center={true}>Our Services</SectionHeading>
+            <p className="text-lg md:text-xl text-brand-muted max-w-2xl mx-auto">
+              Tailored solutions for candidates seeking their next role and employers building winning teams.
+            </p>
+          </motion.div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
 
             {/* For Candidates */}
@@ -237,22 +406,33 @@ export default function Home() {
               whileInView={ready ? { opacity: 1, y: 0 } : undefined}
               viewport={ready ? { once: true, amount: 0.2 } : undefined}
               transition={{ duration: 0.6, ease: "easeOut" }}
-              className="bg-white rounded-3xl p-8 md:p-12 shadow-warm-lg border border-brand-border"
+              whileHover={{ y: -4, transition: { duration: 0.3 } }}
+              className="bg-white rounded-3xl p-8 md:p-12 shadow-warm-lg border border-brand-border transition-shadow duration-300 hover:shadow-warm-glow"
             >
               <div className="w-16 h-16 bg-brand-accent/10 rounded-2xl flex items-center justify-center mb-8">
                 <UserIcon />
               </div>
               <SectionHeading className="!mb-8 !mt-0">For Candidates</SectionHeading>
-              <ul className="space-y-6">
-                {["Resume optimization", "LinkedIn optimization", "Targeted Job applications", "Comprehensive Interview prep"].map((item, i) => (
-                  <li key={i} className="flex items-center gap-4 text-lg text-brand-dark font-medium">
+              <motion.ul
+                variants={staggerContainer}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+                className="space-y-5"
+              >
+                {candidateServices.map((item, i) => (
+                  <motion.li
+                    key={i}
+                    variants={staggerItem}
+                    className="flex items-center gap-4 text-lg text-brand-dark font-medium"
+                  >
                     <span className="flex-shrink-0 w-8 h-8 rounded-full bg-brand-bg flex items-center justify-center">
                       <CheckCircle />
                     </span>
                     {item}
-                  </li>
+                  </motion.li>
                 ))}
-              </ul>
+              </motion.ul>
               <div className="mt-10 pt-8 border-t border-brand-border">
                 <Button href="/candidate" variant="outline" className="w-full">Explore Candidate Services</Button>
               </div>
@@ -264,7 +444,8 @@ export default function Home() {
               whileInView={ready ? { opacity: 1, y: 0 } : undefined}
               viewport={ready ? { once: true, amount: 0.2 } : undefined}
               transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-              className="bg-brand-dark text-white rounded-3xl p-8 md:p-12 shadow-2xl shadow-brand-dark/20 border border-white/10"
+              whileHover={{ y: -4, transition: { duration: 0.3 } }}
+              className="bg-brand-dark text-white rounded-3xl p-8 md:p-12 shadow-2xl shadow-brand-dark/20 border border-white/10 transition-shadow duration-300 hover:shadow-[0_20px_60px_rgba(26,26,46,0.4)]"
             >
               <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mb-8">
                 <BriefcaseIcon />
@@ -279,16 +460,26 @@ export default function Home() {
                   className="absolute -bottom-2 left-0 h-1.5 bg-brand-accent z-0"
                 />
               </h2>
-              <ul className="space-y-6">
-                {["Pre-vetted candidates", "Fast 48-72h hiring turnaround", "Contract & full-time staffing", "Dedicated technical screening"].map((item, i) => (
-                  <li key={i} className="flex items-center gap-4 text-lg font-medium text-white/90">
-                    <span className="flex-shrink-0 w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-brand-accent">
-                      ✓
+              <motion.ul
+                variants={staggerContainer}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+                className="space-y-5"
+              >
+                {employerServices.map((item, i) => (
+                  <motion.li
+                    key={i}
+                    variants={staggerItem}
+                    className="flex items-center gap-4 text-lg font-medium text-white/90"
+                  >
+                    <span className="flex-shrink-0 w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">
+                      <CheckCircleLight />
                     </span>
                     {item}
-                  </li>
+                  </motion.li>
                 ))}
-              </ul>
+              </motion.ul>
               <div className="mt-10 pt-8 border-t border-white/10">
                 <Button href="/employer" variant="primary" className="w-full">Hire Talent Now</Button>
               </div>

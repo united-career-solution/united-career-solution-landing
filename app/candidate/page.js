@@ -120,26 +120,87 @@ export default function CandidatePage() {
 
             {/* SERVICES */}
             <section className="py-24 px-6 bg-brand-bg relative overflow-hidden">
+                {/* Decorative background elements */}
+                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-brand-accent/5 rounded-full blur-[100px] -z-0" />
+                <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-brand-secondary/5 rounded-full blur-[80px] -z-0" />
+
                 <div className="max-w-6xl mx-auto z-10 relative">
-                    <div className="text-center mb-16">
-                        <SectionHeading center={true}>How We Solve It</SectionHeading>
-                        <p className="text-xl text-brand-muted mt-4">A complete system designed exclusively to get you hired.</p>
+                    <div className="text-center mb-20">
+                        <SectionHeading center={true}>Our Services for Candidates</SectionHeading>
+                        <p className="text-xl text-brand-muted mt-4 max-w-2xl mx-auto">
+                            Comprehensive support designed to accelerate your career and get you hired with confidence.
+                        </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {[
-                            { title: "ATS Resume", desc: "Rewriting to beat the bots.", icon: DocumentIcon },
-                            { title: "LinkedIn Branding", desc: "Making recruiters come to you.", icon: UserGroupIcon },
-                            { title: "Targeted Applications", desc: "Applying where you actually fit.", icon: SearchIcon },
-                            { title: "Interview Preparation", desc: "Mock interviews & coaching.", icon: ChatBubbleIcon },
+                            {
+                                title: "Employment Opportunities Aligning with Your Visa Status",
+                                desc: "We match you with job opportunities that align with your visa conditions and legal work eligibility. Our team ensures you connect with employers who understand visa requirements and sponsorship possibilities.",
+                                image: "/images/services/visa-employment.png",
+                                icon: SearchIcon,
+                            },
+                            {
+                                title: "Career Guidance",
+                                desc: "Receive expert guidance to help you plan your career path in international markets. Our advisors assist with role selection, industry expectations, and long-term career strategy.",
+                                image: "/images/services/career-guidance.png",
+                                icon: UserGroupIcon,
+                            },
+                            {
+                                title: "Training Programs",
+                                desc: "Access training programs designed to enhance your professional skills and increase employability. These programs focus on industry-relevant knowledge and practical skill development.",
+                                image: "/images/services/training-programs.png",
+                                icon: DocumentIcon,
+                            },
+                            {
+                                title: "Interview Support",
+                                desc: "Get complete interview preparation including mock interviews, communication guidance, and employer expectation insights to help you confidently perform in real interviews.",
+                                image: "/images/services/interview-support.png",
+                                icon: ChatBubbleIcon,
+                            },
+                            {
+                                title: "Expert Recruiter Counselling",
+                                desc: "Our experienced recruiters provide personalized counselling to understand your profile, career goals, and strengths so they can match you with the right opportunities.",
+                                image: "/images/services/recruiter-counselling.png",
+                                icon: UserGroupIcon,
+                            },
+                            {
+                                title: "End-to-End Support From Resume to Offer Letter",
+                                desc: "We guide candidates throughout the entire hiring journey — from resume improvement and job applications to interview coordination and securing the final offer letter.",
+                                image: "/images/services/end-to-end-support.png",
+                                icon: DocumentIcon,
+                            },
                         ].map((service, i) => (
-                            <Card key={i} delay={i * 0.1}>
-                                <div className="w-14 h-14 rounded-xl bg-brand-accent/10 flex items-center justify-center mb-6">
-                                    <service.icon />
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: 60 }}
+                                whileInView={ready ? { opacity: 1, y: 0 } : undefined}
+                                viewport={ready ? { once: true, amount: 0.15 } : undefined}
+                                transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }}
+                                className="group relative bg-brand-surface rounded-2xl border border-brand-border overflow-hidden transition-all duration-300 hover:-translate-y-3 hover:shadow-2xl"
+                            >
+                                {/* Animated Top Border */}
+                                <div className="absolute top-0 left-0 right-0 h-1 bg-brand-accent transform -translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-10" />
+
+                                {/* Image */}
+                                <div className="relative h-48 overflow-hidden">
+                                    <img
+                                        src={service.image}
+                                        alt={service.title}
+                                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/60 via-brand-dark/10 to-transparent" />
+                                    <div className="absolute bottom-4 left-4 w-12 h-12 rounded-xl bg-brand-accent/90 backdrop-blur-sm flex items-center justify-center shadow-lg text-white [&_svg]:text-white">
+                                        <service.icon />
+                                    </div>
                                 </div>
-                                <h3 className="text-xl font-bold mb-2">{service.title}</h3>
-                                <p className="text-brand-muted">{service.desc}</p>
-                            </Card>
+
+                                {/* Content */}
+                                <div className="p-6">
+                                    <h3 className="text-lg font-bold mb-3 text-brand-dark leading-snug">{service.title}</h3>
+                                    <p className="text-brand-muted text-sm leading-relaxed">{service.desc}</p>
+                                </div>
+                            </motion.div>
                         ))}
                     </div>
                 </div>
