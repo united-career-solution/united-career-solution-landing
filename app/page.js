@@ -205,9 +205,9 @@ export default function Home() {
         </div>
 
         {/* Floating Badges */}
-        <FloatingBadge text="Top 1% Talent" top="20%" left="10%" delay={1.5} floatDuration={6} />
-        <FloatingBadge text="Fast 48h Hiring" top="60%" right="15%" delay={1.8} floatDuration={5} />
-        <FloatingBadge text="Pre-Vetted" bottom="20%" left="20%" delay={2.1} floatDuration={7} />
+        <FloatingBadge text="Top 1% Talent" top="8%" left="3%" delay={1.5} floatDuration={6} />
+        <FloatingBadge text="Fast 48h Hiring" top="8%" right="3%" delay={1.8} floatDuration={5} />
+        <FloatingBadge text="Pre-Vetted" bottom="8%" left="4%" delay={2.1} floatDuration={7} />
 
         <div className="max-w-4xl mx-auto px-6 text-center z-10 pt-20">
           <AnimatedHeadline
@@ -350,7 +350,7 @@ export default function Home() {
         {/* Gradient overlay for depth */}
         <div className="absolute inset-0 bg-gradient-to-br from-brand-dark via-brand-dark/90 to-brand-secondary/20" />
 
-        <div className="max-w-5xl mx-auto relative z-10 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <div className="max-w-5xl mx-auto relative z-10 grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
           {[
             { num: 200, suffix: "+", label: "Candidates Placed" },
             { num: 50, suffix: "+", label: "Hiring Partners" },

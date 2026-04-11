@@ -11,44 +11,44 @@ export default function Footer() {
                                 United Career <span className="text-brand-accent">Solutions</span>
                             </span>
                         </Link>
-                        <p className="text-brand-muted mb-6 text-sm leading-relaxed">
+                        <p className="text-white/50 mb-6 text-sm leading-relaxed">
                             Elevating hiring for ambitious candidates and growing companies across the US & UK. Premium talent, proven strategies.
                         </p>
                     </div>
 
                     <div>
                         <h4 className="font-heading font-semibold text-white mb-6">For Candidates</h4>
-                        <ul className="space-y-4 text-sm text-brand-muted">
-                            <li><Link href="/candidate" className="hover:text-brand-accent transition-colors">Career Strategy</Link></li>
-                            <li><Link href="/candidate" className="hover:text-brand-accent transition-colors">Resume Optimization</Link></li>
-                            <li><Link href="/candidate" className="hover:text-brand-accent transition-colors">US & UK Placement</Link></li>
-                            <li><Link href="/candidate" className="hover:text-brand-accent transition-colors">Interview Prep</Link></li>
+                        <ul className="space-y-4 text-sm">
+                            <li><Link href="/candidate" className="text-white/60 hover:text-white transition-colors duration-200">Career Strategy</Link></li>
+                            <li><Link href="/candidate" className="text-white/60 hover:text-white transition-colors duration-200">Resume Optimization</Link></li>
+                            <li><Link href="/candidate" className="text-white/60 hover:text-white transition-colors duration-200">US & UK Placement</Link></li>
+                            <li><Link href="/candidate" className="text-white/60 hover:text-white transition-colors duration-200">Interview Prep</Link></li>
                         </ul>
                     </div>
 
                     <div>
                         <h4 className="font-heading font-semibold text-white mb-6">For Employers</h4>
-                        <ul className="space-y-4 text-sm text-brand-muted">
-                            <li><Link href="/employer" className="hover:text-brand-accent transition-colors">Hire Talent</Link></li>
-                            <li><Link href="/employer" className="hover:text-brand-accent transition-colors">Pre-vetted Candidates</Link></li>
-                            <li><Link href="/employer" className="hover:text-brand-accent transition-colors">Fast Turnaround</Link></li>
-                            <li><Link href="/employer" className="hover:text-brand-accent transition-colors">Our Process</Link></li>
+                        <ul className="space-y-4 text-sm">
+                            <li><Link href="/employer" className="text-white/60 hover:text-white transition-colors duration-200">Hire Talent</Link></li>
+                            <li><Link href="/employer" className="text-white/60 hover:text-white transition-colors duration-200">Pre-vetted Candidates</Link></li>
+                            <li><Link href="/employer" className="text-white/60 hover:text-white transition-colors duration-200">Fast Turnaround</Link></li>
+                            <li><Link href="/employer" className="text-white/60 hover:text-white transition-colors duration-200">Our Process</Link></li>
                         </ul>
                     </div>
 
                     <div>
                         <h4 className="font-heading font-semibold text-white mb-6">Company</h4>
-                        <ul className="space-y-4 text-sm text-brand-muted">
-                            <li><Link href="/about" className="hover:text-brand-accent transition-colors">About Us</Link></li>
-                            <li><Link href="/contact" className="hover:text-brand-accent transition-colors">Contact</Link></li>
-                            <li><Link href="#" className="hover:text-brand-accent transition-colors">Privacy Policy</Link></li>
-                            <li><Link href="#" className="hover:text-brand-accent transition-colors">Terms of Service</Link></li>
+                        <ul className="space-y-4 text-sm">
+                            <li><Link href="/about" className="text-white/60 hover:text-white transition-colors duration-200">About Us</Link></li>
+                            <li><Link href="/contact" className="text-white/60 hover:text-white transition-colors duration-200">Contact</Link></li>
+                            <li><Link href="#" className="text-white/60 hover:text-white transition-colors duration-200">Privacy Policy</Link></li>
+                            <li><Link href="#" className="text-white/60 hover:text-white transition-colors duration-200">Terms of Service</Link></li>
                         </ul>
                     </div>
                 </div>
 
                 <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <p className="text-sm text-brand-muted">
+                    <p className="text-sm text-white/40">
                         &copy; {new Date().getFullYear()} United Career Solutions. All rights reserved.
                     </p>
                 </div>
