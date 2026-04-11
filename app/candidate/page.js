@@ -52,37 +52,39 @@ export default function CandidatePage() {
     return (
         <>
             {/* HERO */}
-            <section className="relative pt-40 pb-24 px-6 overflow-hidden bg-brand-bg min-h-[70vh] flex items-center justify-center">
-                <div className="absolute inset-0 -z-10 overflow-hidden">
-                    <motion.div
-                        animate={{ scale: [1, 1.1, 1], x: [0, 80, 0], y: [0, -80, 0] }}
-                        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-                        className="absolute top-0 -left-1/4 w-[600px] h-[600px] bg-brand-accent/15 rounded-full blur-[140px]"
-                    />
-                    <motion.div
-                        animate={{ scale: [1, 1.2, 1], x: [0, -60, 0], y: [0, 80, 0] }}
-                        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                        className="absolute -bottom-1/4 -right-1/4 w-[500px] h-[500px] bg-brand-secondary/15 rounded-full blur-[120px]"
-                    />
-                </div>
+            <section className="relative pt-40 pb-24 px-6 overflow-hidden bg-brand-dark min-h-[70vh] flex items-center justify-center">
+                {/* Background Video */}
+                <video
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    className="absolute top-0 left-0 w-full h-full object-cover z-0"
+                >
+                    <source src="/Videos/6036412_Team_Business_3840x2160.mp4" type="video/mp4" />
+                </video>
+
+                {/* Dark Overlay */}
+                <div className="absolute inset-0 bg-black/50 z-[1]" />
 
                 {/* Floating Badges */}
-                <FloatingBadge text="Senior SWE Offers" top="20%" left="15%" delay={1.5} floatDuration={6} />
-                <FloatingBadge text="$150k+ Placements" top="60%" right="10%" delay={1.8} floatDuration={5} />
-                <FloatingBadge text="Bypass the ATS" bottom="25%" left="25%" delay={2.1} floatDuration={7} />
+                <FloatingBadge className="!bg-white/10 !text-white/90 !border-white/20 shadow-[0_0_20px_rgba(255,255,255,0.05)]" text="Senior SWE Offers" top="8%" left="3%" delay={1.5} floatDuration={6} />
+                <FloatingBadge className="!bg-white/10 !text-white/90 !border-white/20 shadow-[0_0_20px_rgba(255,255,255,0.05)]" text="$150k+ Placements" top="8%" right="3%" delay={1.8} floatDuration={5} />
+                <FloatingBadge className="!bg-white/10 !text-white/90 !border-white/20 shadow-[0_0_20px_rgba(255,255,255,0.05)]" text="Bypass the ATS" bottom="8%" left="4%" delay={2.1} floatDuration={7} />
 
                 <div className="max-w-4xl mx-auto text-center relative z-10 w-full">
                     <AnimatedHeadline
                         text="Your Job Search is Broken. We Fix It."
                         delay={0.2}
-                        className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight text-brand-dark justify-center mb-6"
+                        className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight text-white justify-center mb-6"
                     />
 
                     <div className="min-h-[60px] mb-12">
                         <TypewriterText
                             text="Land interviews and offers with a proven system."
                             delay={0.8}
-                            className="text-xl md:text-2xl text-brand-muted max-w-2xl mx-auto leading-relaxed"
+                            className="text-xl md:text-2xl text-white/80 max-w-2xl mx-auto leading-relaxed"
                         />
                     </div>
 
@@ -102,21 +104,80 @@ export default function CandidatePage() {
                 <div className="max-w-5xl mx-auto">
                     <div className="text-center mb-16">
                         <SectionHeading center={true}>Sound Familiar?</SectionHeading>
+                        <p className="text-lg text-brand-muted mt-4 max-w-2xl mx-auto">
+                            These are the real frustrations candidates face when trying to land roles abroad.
+                        </p>
                     </div>
-                    <div className="flex flex-col md:flex-row justify-center gap-8">
-                        <Card hoverEffect={true} delay={0.1} className="flex-1 bg-red-50/50 border-red-100">
-                            <div className="text-red-500 font-bold text-lg mb-2">Pain Point #1</div>
-                            <h3 className="text-2xl font-bold mb-4">Applying but no response</h3>
-                            <p className="text-brand-muted">Sending 100s of resumes into the void without a single callback is exhausting.</p>
-                        </Card>
-                        <Card hoverEffect={true} delay={0.2} className="flex-1 bg-red-50/50 border-red-100">
-                            <div className="text-red-500 font-bold text-lg mb-2">Pain Point #2</div>
-                            <h3 className="text-2xl font-bold mb-4">Not getting interview calls</h3>
-                            <p className="text-brand-muted">Your experience is great, but the way you are packaged is causing immediate rejection.</p>
-                        </Card>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 lg:gap-8">
+                        {[
+                            {
+                                label: "Pain Point #1",
+                                title: "Random Job Applications",
+                                desc: "Applying to hundreds of jobs without knowing if your profile actually matches what employers are looking for.",
+                                icon: (
+                                    <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m6.75 12H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                                    </svg>
+                                ),
+                            },
+                            {
+                                label: "Pain Point #2",
+                                title: "Lack of Career Guidance",
+                                desc: "No proper guidance on which roles or industries best fit your skills, experience, and visa eligibility.",
+                                icon: (
+                                    <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
+                                    </svg>
+                                ),
+                            },
+                            {
+                                label: "Pain Point #3",
+                                title: "Unclear Hiring Processes",
+                                desc: "Confusing recruitment pipelines and unrealistic promises from agencies leave you stuck in limbo.",
+                                icon: (
+                                    <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                                    </svg>
+                                ),
+                            },
+                            {
+                                label: "Pain Point #4",
+                                title: "Interview Preparation Gaps",
+                                desc: "Struggling to prepare for international interview standards and employer expectations without proper support.",
+                                icon: (
+                                    <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155" />
+                                    </svg>
+                                ),
+                            },
+                        ].map((point, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: 24 }}
+                                whileInView={ready ? { opacity: 1, y: 0 } : undefined}
+                                viewport={ready ? { once: true, amount: 0.2 } : undefined}
+                                transition={{ duration: 0.5, delay: i * 0.12, ease: "easeOut" }}
+                                className="group relative bg-red-50/40 rounded-2xl border border-red-100 p-5 md:p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl overflow-hidden"
+                            >
+                                {/* Hover top accent */}
+                                <div className="absolute top-0 left-0 right-0 h-1 bg-red-400 transform -translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+
+                                <div className="flex items-start gap-3 md:gap-4">
+                                    <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-xl bg-red-100 flex items-center justify-center text-red-500">
+                                        {point.icon}
+                                    </div>
+                                    <div className="min-w-0">
+                                        <span className="text-red-500 font-bold text-xs md:text-sm tracking-wide uppercase">{point.label}</span>
+                                        <h3 className="text-base md:text-xl lg:text-2xl font-bold mb-1 md:mb-3 text-brand-dark leading-snug">{point.title}</h3>
+                                        <p className="text-brand-muted text-xs md:text-base leading-relaxed">{point.desc}</p>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        ))}
                     </div>
                 </div>
             </section>
+
 
             {/* SERVICES */}
             <section className="py-24 px-6 bg-brand-bg relative overflow-hidden">

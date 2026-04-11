@@ -52,23 +52,25 @@ export default function EmployerPage() {
         <>
             {/* HERO */}
             <section className="relative pt-40 pb-24 px-6 overflow-hidden bg-brand-dark text-white min-h-[70vh] flex items-center justify-center">
-                <div className="absolute inset-0 -z-10 overflow-hidden">
-                    <motion.div
-                        animate={{ scale: [1, 1.1, 1], x: [0, 80, 0], y: [0, -80, 0] }}
-                        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-                        className="absolute top-0 -left-1/4 w-[600px] h-[600px] bg-brand-accent/20 rounded-full blur-[140px]"
-                    />
-                    <motion.div
-                        animate={{ scale: [1, 1.2, 1], x: [0, -60, 0], y: [0, 80, 0] }}
-                        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                        className="absolute -bottom-1/4 -right-1/4 w-[500px] h-[500px] bg-brand-secondary/30 rounded-full blur-[120px]"
-                    />
-                </div>
+                {/* Background Video */}
+                <video
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    className="absolute top-0 left-0 w-full h-full object-cover z-0"
+                >
+                    <source src="/Videos/6036938_Office_People_3840x2160.mp4" type="video/mp4" />
+                </video>
+
+                {/* Dark Overlay */}
+                <div className="absolute inset-0 bg-black/50 z-[1]" />
 
                 {/* Floating Badges (Dark Mode specific border styling explicitly overriding default) */}
-                <FloatingBadge className="!bg-brand-surface/10 !text-white/90 !border-white/20 shadow-[0_0_20px_rgba(255,255,255,0.05)]" text="Vetted Full-Stack" top="25%" left="15%" delay={1.5} floatDuration={6} />
-                <FloatingBadge className="!bg-brand-surface/10 !text-white/90 !border-white/20 shadow-[0_0_20px_rgba(255,255,255,0.05)]" text="Immediate Starts" top="65%" right="15%" delay={1.8} floatDuration={5} />
-                <FloatingBadge className="!bg-brand-surface/10 !text-white/90 !border-white/20 shadow-[0_0_20px_rgba(255,255,255,0.05)]" text="Global Talent" bottom="20%" left="25%" delay={2.1} floatDuration={7} />
+                <FloatingBadge className="!bg-brand-surface/10 !text-white/90 !border-white/20 shadow-[0_0_20px_rgba(255,255,255,0.05)]" text="Vetted Full-Stack" top="8%" left="3%" delay={1.5} floatDuration={6} />
+                <FloatingBadge className="!bg-brand-surface/10 !text-white/90 !border-white/20 shadow-[0_0_20px_rgba(255,255,255,0.05)]" text="Immediate Starts" top="8%" right="3%" delay={1.8} floatDuration={5} />
+                <FloatingBadge className="!bg-brand-surface/10 !text-white/90 !border-white/20 shadow-[0_0_20px_rgba(255,255,255,0.05)]" text="Global Talent" bottom="8%" left="4%" delay={2.1} floatDuration={7} />
 
                 <div className="max-w-4xl mx-auto text-center relative z-10 w-full">
                     <AnimatedHeadline
