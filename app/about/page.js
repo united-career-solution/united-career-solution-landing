@@ -12,7 +12,7 @@ export default function AboutPage() {
     return (
         <>
             {/* HERO */}
-            <section className="relative pt-40 pb-24 px-6 overflow-hidden bg-brand-bg min-h-[60vh] flex items-center justify-center">
+            <section className="relative pt-40 pb-32 px-6 overflow-hidden bg-brand-bg min-h-[60vh] flex items-center justify-center rounded-b-[20px] md:rounded-b-[40px] z-20 shadow-xl">
                 <div className="absolute inset-0 -z-10 overflow-hidden">
                     <motion.div
                         animate={{ scale: [1, 1.1, 1], x: [0, 80, 0], y: [0, -80, 0] }}
@@ -44,16 +44,22 @@ export default function AboutPage() {
             </section>
 
             {/* STORY & MISSION */}
-            <section className="py-24 px-6 bg-white border-y border-brand-border">
-                <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16">
+            <section className="-mt-20 pt-44 pb-24 px-6 relative overflow-hidden z-10 text-white">
+                {/* Gradient Background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-brand-dark via-[#212745] to-brand-secondary z-0" />
+                {/* Texture Overlay */}
+                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 z-0" />
+
+                <div className="max-w-5xl mx-auto relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
                     <motion.div
-                        initial={{ opacity: 0, x: -50 }}
-                        whileInView={ready ? { opacity: 1, x: 0 } : undefined}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={ready ? { opacity: 1, y: 0 } : undefined}
                         viewport={ready ? { once: true, amount: 0.2 } : undefined}
                         transition={{ duration: 0.6, ease: "easeOut" }}
+                        className="bg-white/[0.06] backdrop-blur-[12px] rounded-2xl p-6 md:p-8 shadow-lg border border-white/10 hover:-translate-y-1 hover:border-white/20 transition-all duration-300 h-full flex flex-col max-w-lg mx-auto w-full"
                     >
-                        <h2 className="text-3xl md:text-4xl mb-6 text-brand-dark">Our Story</h2>
-                        <div className="space-y-4 text-brand-dark/80 leading-relaxed text-lg">
+                        <h2 className="text-xl md:text-2xl mb-4 text-white font-bold tracking-tight">Our Story</h2>
+                        <div className="space-y-4 text-slate-300 leading-relaxed text-sm md:text-base flex-grow">
                             <p>
                                 We started with a simple observation: the hiring market is fundamentally broken for both sides. Talented candidates send hundreds of resumes into the void, while companies drown in unqualified applications.
                             </p>
@@ -67,25 +73,26 @@ export default function AboutPage() {
                     </motion.div>
 
                     <motion.div
-                        initial={{ opacity: 0, x: 50 }}
-                        whileInView={ready ? { opacity: 1, x: 0 } : undefined}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={ready ? { opacity: 1, y: 0 } : undefined}
                         viewport={ready ? { once: true, amount: 0.2 } : undefined}
                         transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+                        className="bg-white/[0.06] backdrop-blur-[12px] rounded-2xl p-6 md:p-8 shadow-lg border border-white/10 hover:-translate-y-1 hover:border-white/20 transition-all duration-300 h-full flex flex-col max-w-lg mx-auto w-full"
                     >
-                        <h2 className="text-3xl md:text-4xl mb-6 text-brand-dark">Our Mission</h2>
-                        <Card hoverEffect={false} className="bg-brand-bg shadow-inner border-0 h-full">
-                            <p className="text-xl font-medium text-brand-dark leading-relaxed italic mb-8">
+                        <h2 className="text-xl md:text-2xl mb-4 text-white font-bold tracking-tight">Our Mission</h2>
+                        <div className="flex-grow flex flex-col">
+                            <p className="text-base md:text-lg font-medium text-white leading-relaxed italic mb-6 border-l-4 border-brand-accent pl-4 py-2 bg-white/5 rounded-r-lg">
                                 "To democratize access to top global opportunities by completely removing friction from the hiring process."
                             </p>
-                            <div className="space-y-4">
-                                <h4 className="font-bold text-brand-dark">Core Values:</h4>
-                                <ul className="space-y-3">
-                                    <li className="flex items-center gap-3 text-brand-dark/80"><span className="w-2 h-2 rounded-full bg-brand-accent"></span> Total Transparency</li>
-                                    <li className="flex items-center gap-3 text-brand-dark/80"><span className="w-2 h-2 rounded-full bg-brand-accent"></span> Precision & Speed</li>
-                                    <li className="flex items-center gap-3 text-brand-dark/80"><span className="w-2 h-2 rounded-full bg-brand-accent"></span> Human-Centric Focus</li>
+                            <div className="space-y-3 mt-2">
+                                <h4 className="font-bold text-white uppercase tracking-wider text-xs mb-3">Core Values</h4>
+                                <ul className="space-y-2">
+                                    <li className="flex items-center gap-3 text-slate-300 bg-white/5 p-2 rounded-md"><span className="w-2 h-2 rounded-full bg-brand-accent shadow-[0_0_8px_rgba(234,179,8,0.5)]"></span> <span className="font-medium text-sm md:text-base">Total Transparency</span></li>
+                                    <li className="flex items-center gap-3 text-slate-300 bg-white/5 p-2 rounded-md"><span className="w-2 h-2 rounded-full bg-brand-accent shadow-[0_0_8px_rgba(234,179,8,0.5)]"></span> <span className="font-medium text-sm md:text-base">Precision & Speed</span></li>
+                                    <li className="flex items-center gap-3 text-slate-300 bg-white/5 p-2 rounded-md"><span className="w-2 h-2 rounded-full bg-brand-accent shadow-[0_0_8px_rgba(234,179,8,0.5)]"></span> <span className="font-medium text-sm md:text-base">Human-Centric Focus</span></li>
                                 </ul>
                             </div>
-                        </Card>
+                        </div>
                     </motion.div>
                 </div>
             </section>
@@ -126,10 +133,16 @@ export default function AboutPage() {
             </section>
 
             {/* CTA */}
-            <section className="py-24 px-6 bg-brand-dark text-white text-center">
-                <div className="max-w-3xl mx-auto">
-                    <h2 className="text-4xl mb-8">Let's Work Together</h2>
-                    <Button href="/contact">Contact Our Team</Button>
+            <section className="py-32 px-6 text-white text-center relative overflow-hidden">
+                {/* Gradient Background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-brand-dark via-[#212745] to-brand-secondary z-0" />
+                {/* Texture Overlay */}
+                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 z-0" />
+
+                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-accent/5 rounded-full blur-[100px] z-0"></div>
+                <div className="max-w-3xl mx-auto relative z-10">
+                    <h2 className="text-5xl md:text-6xl font-bold tracking-tight mb-8 text-white drop-shadow-sm">Let's Work Together</h2>
+                    <Button href="/contact" className="px-10 py-4 shadow-lg shadow-brand-accent/20 hover:-translate-y-1 transition-transform">Contact Our Team</Button>
                 </div>
             </section>
         </>
