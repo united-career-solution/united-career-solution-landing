@@ -8,6 +8,7 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import AnimatedHeadline from "@/components/ui/AnimatedHeadline";
 import TypewriterText from "@/components/ui/TypewriterText";
 import FloatingBadge from "@/components/ui/FloatingBadge";
+import HeroVideo from "@/components/ui/HeroVideo";
 import { useScrollReady } from "@/hooks/useScrollReady";
 
 // Safe Icons
@@ -53,16 +54,7 @@ export default function EmployerPage() {
             {/* HERO */}
             <section className="relative pt-40 pb-24 px-6 overflow-hidden bg-brand-dark text-white min-h-[70vh] flex items-center justify-center">
                 {/* Background Video */}
-                <video
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                    className="absolute top-0 left-0 w-full h-full object-cover z-0"
-                >
-                    <source src="/Videos/6036938_Office_People_3840x2160.mp4" type="video/mp4" />
-                </video>
+                <HeroVideo src="/Videos/6036938_Office_People_3840x2160.mp4" />
 
                 {/* Dark Overlay */}
                 <div className="absolute inset-0 bg-black/50 z-[1]" />
@@ -213,22 +205,27 @@ export default function EmployerPage() {
             </section>
 
             {/* CTA */}
-            <section className="py-24 px-6 relative overflow-hidden bg-brand-accent text-brand-dark text-center">
+            <section className="py-24 px-6 relative overflow-hidden text-white text-center">
+                {/* Gradient Background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-brand-dark via-[#212745] to-brand-secondary z-0" />
+                {/* Texture Overlay */}
+                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 z-0" />
+
                 <div className="max-w-3xl mx-auto relative z-10">
                     <motion.div
                         initial={{ opacity: 0, y: 60 }}
                         whileInView={ready ? { opacity: 1, y: 0 } : undefined}
                         viewport={ready ? { once: true, amount: 0.2 } : undefined}
                     >
-                        <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">Build Your Dream Team.</h2>
-                        <p className="text-xl font-medium opacity-80 mb-10 max-w-2xl mx-auto">
+                        <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 text-white">Build Your Dream Team.</h2>
+                        <p className="text-xl font-medium text-slate-300 mb-10 max-w-2xl mx-auto">
                             Partner with us to find your next great hire.
                         </p>
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                            <Button href="/contact" className="bg-brand-dark text-white hover:bg-brand-dark/90 px-10">
+                            <Button href="/contact" className="bg-brand-accent text-brand-dark hover:bg-brand-accent/90 px-10">
                                 Hire Now
                             </Button>
-                            <Button href="/contact" variant="secondary" className="border-brand-dark/30 hover:bg-brand-dark/10 px-10">
+                            <Button href="/contact" variant="secondary" className="text-white border-white/20 hover:bg-white/10 px-10">
                                 Submit Requirement
                             </Button>
                         </div>

@@ -8,6 +8,7 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import AnimatedHeadline from "@/components/ui/AnimatedHeadline";
 import TypewriterText from "@/components/ui/TypewriterText";
 import FloatingBadge from "@/components/ui/FloatingBadge";
+import HeroVideo from "@/components/ui/HeroVideo";
 import { useScrollReady } from "@/hooks/useScrollReady";
 
 // Safe SVG Icons
@@ -53,17 +54,8 @@ export default function CandidatePage() {
         <>
             {/* HERO */}
             <section className="relative pt-40 pb-24 px-6 overflow-hidden bg-brand-dark min-h-[70vh] flex items-center justify-center">
-                {/* Background Video */}
-                <video
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                    className="absolute top-0 left-0 w-full h-full object-cover z-0"
-                >
-                    <source src="/Videos/6036412_Team_Business_3840x2160.mp4" type="video/mp4" />
-                </video>
+                {/* Background Video (lazy-loaded) */}
+                <HeroVideo src="/Videos/6036412_Team_Business_3840x2160.mp4" />
 
                 {/* Dark Overlay */}
                 <div className="absolute inset-0 bg-black/50 z-[1]" />
@@ -304,9 +296,14 @@ export default function CandidatePage() {
             </section>
 
             {/* COUNTRY TOGGLE (Critical Feature) */}
-            <section className="py-24 px-6 bg-brand-dark text-white relative">
-                <div className="max-w-4xl mx-auto text-center">
-                    <SectionHeading center={true} className="mb-8">Tailored for Your Target Market</SectionHeading>
+            <section className="py-24 px-6 text-white relative overflow-hidden">
+                {/* Gradient Background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-brand-dark via-[#212745] to-brand-secondary z-0" />
+                {/* Texture Overlay */}
+                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 z-0" />
+
+                <div className="max-w-4xl mx-auto text-center relative z-10">
+                    <SectionHeading center={true} light={true} className="mb-8 ">Tailored for Your Target Market</SectionHeading>
 
                     <div className="inline-flex bg-white/10 rounded-full p-1.5 mb-12 relative overflow-hidden backdrop-blur-md">
                         <button

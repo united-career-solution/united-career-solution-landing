@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useScrollReady } from "@/hooks/useScrollReady";
 
-export default function SectionHeading({ children, className = "", center = false }) {
+export default function SectionHeading({ children, className = "", center = false, light = false }) {
     const ready = useScrollReady(500);
 
     return (
@@ -15,7 +15,7 @@ export default function SectionHeading({ children, className = "", center = fals
                 transition={{ duration: 0.5, ease: "easeOut" }}
                 className="relative inline-block mb-6 group"
             >
-                <h2 className="text-4xl md:text-5xl relative z-10 text-brand-dark">
+                <h2 className={`font-heading text-4xl md:text-5xl relative z-10 ${light ? "text-white" : "text-brand-dark"}`}>
                     {children}
                 </h2>
                 <motion.div

@@ -344,11 +344,11 @@ export default function Home() {
       </section>
 
       {/* 4. STATS SECTION */}
-      <section className="py-20 px-6 bg-brand-dark text-white relative overflow-hidden">
-        {/* Background texture */}
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.08]" />
-        {/* Gradient overlay for depth */}
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-dark via-brand-dark/90 to-brand-secondary/20" />
+      <section className="py-20 px-6 text-white relative overflow-hidden">
+        {/* Gradient Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-dark via-[#212745] to-brand-secondary z-0" />
+        {/* Texture Overlay */}
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 z-0" />
 
         <div className="max-w-5xl mx-auto relative z-10 grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
           {[
@@ -445,11 +445,17 @@ export default function Home() {
               viewport={ready ? { once: true, amount: 0.2 } : undefined}
               transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
               whileHover={{ y: -4, transition: { duration: 0.3 } }}
-              className="bg-brand-dark text-white rounded-3xl p-8 md:p-12 shadow-2xl shadow-brand-dark/20 border border-white/10 transition-shadow duration-300 hover:shadow-[0_20px_60px_rgba(26,26,46,0.4)]"
+              className="text-white rounded-3xl shadow-2xl shadow-brand-dark/20 border border-white/10 transition-shadow duration-300 hover:shadow-[0_20px_60px_rgba(26,26,46,0.4)] relative overflow-hidden"
             >
-              <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mb-8">
-                <BriefcaseIcon />
-              </div>
+              {/* Gradient Background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-brand-dark via-[#212745] to-brand-secondary z-0" />
+              {/* Texture Overlay */}
+              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 z-0" />
+
+              <div className="relative z-10 p-8 md:p-12 h-full flex flex-col">
+                <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mb-8">
+                  <BriefcaseIcon />
+                </div>
               <h2 className="text-3xl md:text-4xl mb-8 font-heading font-bold text-white relative inline-block group">
                 For Employers
                 <motion.div
@@ -480,8 +486,9 @@ export default function Home() {
                   </motion.li>
                 ))}
               </motion.ul>
-              <div className="mt-10 pt-8 border-t border-white/10">
+              <div className="mt-10 mt-auto pt-8 border-t border-white/10">
                 <Button href="/employer" variant="primary" className="w-full">Hire Talent Now</Button>
+              </div>
               </div>
             </motion.div>
 
