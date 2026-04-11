@@ -10,6 +10,7 @@ import AnimatedHeadline from "@/components/ui/AnimatedHeadline";
 import TypewriterText from "@/components/ui/TypewriterText";
 import FloatingBadge from "@/components/ui/FloatingBadge";
 import InfiniteMarquee from "@/components/ui/InfiniteMarquee";
+import GlobalOpportunitiesMap from "@/components/world-map/GlobalOpportunitiesMap";
 import { useScrollReady } from "@/hooks/useScrollReady";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
@@ -205,49 +206,56 @@ export default function Home() {
         </div>
 
         {/* Floating Badges */}
-        <FloatingBadge text="Top 1% Talent" top="8%" left="3%" delay={1.5} floatDuration={6} />
+        {/*<FloatingBadge text="Top 1% Talent" top="8%" left="3%" delay={1.5} floatDuration={6} />
         <FloatingBadge text="Fast 48h Hiring" top="8%" right="3%" delay={1.8} floatDuration={5} />
-        <FloatingBadge text="Pre-Vetted" bottom="8%" left="4%" delay={2.1} floatDuration={7} />
+        <FloatingBadge text="Pre-Vetted" bottom="8%" left="4%" delay={2.1} floatDuration={7} />*/}
 
-        <div className="max-w-4xl mx-auto px-6 text-center z-10 pt-20">
-          <AnimatedHeadline
-            text="Stop Applying Blindly. Start Getting Hired."
-            delay={0.2}
-            className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-brand-dark leading-tight justify-center mb-6"
-          />
-
-          <div className="min-h-[80px] mb-12">
-            <TypewriterText
-              text="We help candidates land full-time jobs in the US & UK and help companies hire pre-vetted talent faster."
-              delay={0.8}
-              className="text-lg md:text-xl text-brand-muted max-w-2xl mx-auto leading-relaxed"
+        <div className="max-w-7xl mx-auto px-6 w-full z-10 pt-24 lg:pt-0 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-4">
+          <div className="w-full lg:w-1/2 text-center lg:text-left flex flex-col justify-center">
+            <AnimatedHeadline
+              text="Stop Applying Blindly. Start Getting Hired."
+              delay={0.2}
+              className="text-5xl md:text-6xl lg:text-[4rem] font-bold tracking-tight text-brand-dark leading-tight justify-center lg:justify-start mb-6"
             />
+
+            <div className="min-h-[80px] mb-10">
+              <TypewriterText
+                text="We help candidates land full-time jobs in the US & UK and help companies hire pre-vetted talent faster."
+                delay={0.8}
+                className="text-lg md:text-xl text-brand-muted max-w-xl mx-auto lg:mx-0 leading-relaxed"
+              />
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 1.2, duration: 0.6, type: "spring", damping: 10, stiffness: 150 }}
+              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4"
+            >
+              <Button href="/candidate" variant="primary" className="w-full sm:w-auto">
+                I'm a Candidate
+              </Button>
+              <Button href="/employer" variant="secondary" className="w-full sm:w-auto bg-white/50 backdrop-blur-sm">
+                I'm an Employer
+              </Button>
+            </motion.div>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1.2, duration: 0.6, type: "spring", damping: 10, stiffness: 150 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
-          >
-            <Button href="/candidate" variant="primary" className="w-full sm:w-auto">
-              I'm a Candidate
-            </Button>
-            <Button href="/employer" variant="secondary" className="w-full sm:w-auto bg-white/50 backdrop-blur-sm">
-              I'm an Employer
-            </Button>
-          </motion.div>
+          {/* Map Component integrated as the right column */}
+          <div className="w-full lg:w-1/2 relative z-10 flex justify-center items-center scale-110 md:scale-125 lg:scale-110 lg:translate-x-8">
+            <GlobalOpportunitiesMap />
+          </div>
         </div>
 
         {/* Scroll Indicator */}
-        <motion.div
+        {/*<motion.div
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           className="absolute bottom-2 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-brand-muted"
         >
           <span className="text-sm font-medium tracking-widest uppercase">Scroll</span>
           <div className="w-0.5 h-12 bg-gradient-to-b from-brand-accent to-transparent" />
-        </motion.div>
+        </motion.div> */}
       </section>
 
       {/* 2. TRUST LINE SECTION */}
@@ -456,39 +464,39 @@ export default function Home() {
                 <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mb-8">
                   <BriefcaseIcon />
                 </div>
-              <h2 className="text-3xl md:text-4xl mb-8 font-heading font-bold text-white relative inline-block group">
-                For Employers
-                <motion.div
-                  initial={{ width: 0 }}
-                  whileInView={{ width: "30%" }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: 0.4 }}
-                  className="absolute -bottom-2 left-0 h-1.5 bg-brand-accent z-0"
-                />
-              </h2>
-              <motion.ul
-                variants={staggerContainer}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.2 }}
-                className="space-y-5"
-              >
-                {employerServices.map((item, i) => (
-                  <motion.li
-                    key={i}
-                    variants={staggerItem}
-                    className="flex items-center gap-4 text-lg font-medium text-white/90"
-                  >
-                    <span className="flex-shrink-0 w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">
-                      <CheckCircleLight />
-                    </span>
-                    {item}
-                  </motion.li>
-                ))}
-              </motion.ul>
-              <div className="mt-10 mt-auto pt-8 border-t border-white/10">
-                <Button href="/employer" variant="primary" className="w-full">Hire Talent Now</Button>
-              </div>
+                <h2 className="text-3xl md:text-4xl mb-8 font-heading font-bold text-white relative inline-block group">
+                  For Employers
+                  <motion.div
+                    initial={{ width: 0 }}
+                    whileInView={{ width: "30%" }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.4 }}
+                    className="absolute -bottom-2 left-0 h-1.5 bg-brand-accent z-0"
+                  />
+                </h2>
+                <motion.ul
+                  variants={staggerContainer}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.2 }}
+                  className="space-y-5"
+                >
+                  {employerServices.map((item, i) => (
+                    <motion.li
+                      key={i}
+                      variants={staggerItem}
+                      className="flex items-center gap-4 text-lg font-medium text-white/90"
+                    >
+                      <span className="flex-shrink-0 w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">
+                        <CheckCircleLight />
+                      </span>
+                      {item}
+                    </motion.li>
+                  ))}
+                </motion.ul>
+                <div className="mt-10 mt-auto pt-8 border-t border-white/10">
+                  <Button href="/employer" variant="primary" className="w-full">Hire Talent Now</Button>
+                </div>
               </div>
             </motion.div>
 

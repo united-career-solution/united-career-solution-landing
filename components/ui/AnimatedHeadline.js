@@ -36,7 +36,7 @@ export default function AnimatedHeadline({ text, className = "", delay = 0 }) {
 
     return (
         <motion.h1
-            style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "0.25em" }}
+            style={{ display: "flex", flexWrap: "wrap", gap: "0.25em" }}
             variants={container}
             initial="hidden"
             animate="visible"
