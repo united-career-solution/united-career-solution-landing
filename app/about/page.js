@@ -6,6 +6,7 @@ import Button from "@/components/ui/Button";
 import AnimatedHeadline from "@/components/ui/AnimatedHeadline";
 import TypewriterText from "@/components/ui/TypewriterText";
 import { useScrollReady } from "@/hooks/useScrollReady";
+import InfiniteMarquee from "@/components/ui/InfiniteMarquee";
 
 export default function AboutPage() {
     const ready = useScrollReady(500);
@@ -97,38 +98,40 @@ export default function AboutPage() {
                 </div>
             </section>
 
-            {/* TEAM (Placeholder) */}
-            <section className="py-24 px-6 bg-brand-bg">
-                <div className="max-w-6xl mx-auto text-center">
-                    <h2 className="text-4xl md:text-5xl mb-4">Meet the Experts</h2>
-                    <p className="text-xl text-brand-muted mb-16">The strategists behind your next big career move or hire.</p>
+            {/* GET PLACED AT THE TOP */}
+            <section className="py-24 px-6 bg-brand-bg relative z-10 overflow-hidden border-y border-brand-border/40">
+                <div className="max-w-6xl mx-auto text-center mb-16">
+                    <h2 className="text-4xl md:text-5xl mb-4 font-bold text-brand-dark">Get Placed at the Top</h2>
+                    <p className="text-xl text-brand-muted max-w-2xl mx-auto">
+                        We connect talent with the world&apos;s leading companies across the US and UK.
+                    </p>
+                </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-                        {[
-                            { name: "Alex Mercer", role: "CEO & Founder" },
-                            { name: "Samantha Lee", role: "Head of US Placements" },
-                            { name: "David Chen", role: "Head of UK Placements" },
-                            { name: "Emily Watson", role: "Director of Employer Partnerships" },
-                        ].map((member, i) => (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, y: 60 }}
-                                whileInView={ready ? { opacity: 1, y: 0 } : undefined}
-                                viewport={ready ? { once: true, amount: 0.2 } : undefined}
-                                transition={{ delay: i * 0.1, duration: 0.6, ease: "easeOut" }}
-                                className="group cursor-pointer"
-                            >
-                                <div className="aspect-[4/5] bg-brand-border/30 rounded-2xl mb-6 overflow-hidden relative">
-                                    {/* Placeholder Avatar */}
-                                    <div className="absolute inset-0 bg-brand-dark/5 group-hover:bg-brand-accent/20 transition-colors flex items-center justify-center text-brand-muted/20">
-                                        <svg className="w-24 h-24" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-                                    </div>
-                                </div>
-                                <h3 className="text-xl font-bold font-heading text-brand-dark">{member.name}</h3>
-                                <p className="text-brand-muted">{member.role}</p>
-                            </motion.div>
+                <div className="relative w-full max-w-7xl mx-auto">
+                    <InfiniteMarquee
+                        speed={40}
+                        items={[
+                            { name: "Google", icon: "google" },
+                            { name: "Amazon", icon: "amazon" },
+                            { name: "Microsoft", icon: "microsoft" },
+                            { name: "Meta", icon: "meta" },
+                            { name: "Apple", icon: "apple" },
+                            { name: "Spotify", icon: "spotify" },
+                            { name: "Barclays", icon: "barclays" },
+                            { name: "HSBC", icon: "hsbc" },
+                            { name: "Bloomberg", icon: "bloomberg" },
+                        ].map((company, i) => (
+                            <div key={i} className="flex items-center justify-center px-10 md:px-14 h-20">
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img
+                                    src={`https://cdn.simpleicons.org/${company.icon}`}
+                                    alt={company.name}
+                                    className="w-auto h-10 md:h-12 opacity-40 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500 object-contain cursor-default filter drop-shadow-sm"
+                                    title={company.name}
+                                />
+                            </div>
                         ))}
-                    </div>
+                    />
                 </div>
             </section>
 
