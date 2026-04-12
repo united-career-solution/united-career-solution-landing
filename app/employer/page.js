@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
@@ -42,11 +42,11 @@ export default function EmployerPage() {
     const ready = useScrollReady(500);
 
     const processSteps = [
-        { title: "Requirement Discussion", desc: "We map out exactly what you're looking for, beyond just the JD." },
-        { title: "Sourcing", desc: "Tapping into our private network of top-tier talent in US & UK." },
-        { title: "Screening", desc: "Rigorous technical and behavioral rounds by our team." },
-        { title: "Shortlisting", desc: "You receive only the top 3-5 candidates. No clutter." },
-        { title: "Interview", desc: "Seamless scheduling and final stage management." },
+        { title: "Requirement Discussion", desc: "We initiate a detailed consultation to thoroughly understand your specific technical requirements, organizational culture, and business objectives, ensuring we scope the search far beyond a basic job description." },
+        { title: "Sourcing", desc: "Leveraging our exclusive and highly curated private talent network, we prioritize high-potential candidates across the US and UK who possess the precise expertise and cultural fit required for your organization." },
+        { title: "Screening", desc: "Every potential hire undergoes a multi-layered rigorous screening process, including deep technical evaluations and behavioral assessments conducted by our domain experts to guarantee candidate quality." },
+        { title: "Shortlisting", desc: "We present a final selection of only the top 3-5 pre-vetted professionals who best match your criteria, saving your team significant time and effort by eliminating the need to review unqualified resumes." },
+        { title: "Interview", desc: "Our team facilitates the entire interview lifecycle, managing complex scheduling, providing candidate briefing, and coordinating feedback loops to ensure a seamless and professional hiring experience for all parties." },
     ];
 
     return (
@@ -170,35 +170,73 @@ export default function EmployerPage() {
 
             {/* PROCESS TIMELINE */}
             <section className="py-24 px-6 bg-white overflow-hidden relative">
-                <div className="max-w-4xl mx-auto">
+                <div className="max-w-6xl mx-auto">
                     <SectionHeading center={true} className="mb-20">How We Work Together</SectionHeading>
 
                     <div className="relative" ref={timelineRef}>
-                        <div className="absolute left-1/2 md:left-[28px] top-0 bottom-0 w-1 bg-brand-border" />
+                        {/* Static Track */}
+                        <div className="absolute hidden md:block left-1/2 -translate-x-1/2 top-0 bottom-0 w-1 bg-brand-border" />
+
+                        {/* Dynamic Filling Track */}
                         <motion.div
-                            className="absolute left-1/2 md:left-[28px] top-0 bottom-0 w-1 bg-brand-accent origin-top z-0"
+                            className="absolute hidden md:block left-1/2 -translate-x-1/2 top-0 bottom-0 w-1 bg-brand-secondary origin-top z-0"
                             style={{ scaleY: scrollYProgress }}
                         />
 
-                        <div className="space-y-12">
-                            {processSteps.map((step, i) => (
-                                <motion.div
-                                    initial={{ opacity: 0, y: 60 }}
-                                    whileInView={ready ? { opacity: 1, y: 0 } : undefined}
-                                    viewport={ready ? { once: true, amount: 0.2 } : undefined}
-                                    transition={{ delay: i * 0.1, duration: 0.6, ease: "easeOut" }}
+                        {/* Mobile dynamic track */}
+                        <div className="absolute md:hidden left-[26px] top-0 bottom-0 w-1 bg-brand-border" />
+                        <motion.div
+                            className="absolute md:hidden left-[26px] top-0 bottom-0 w-1 bg-brand-secondary origin-top z-0"
+                            style={{ scaleY: scrollYProgress }}
+                        />
+
+                        <div className="space-y-10 md:space-y-0 w-full pl-12 md:pl-0">
+                            {processSteps.map((step, i) => {
+                                const isLeft = i % 2 === 0;
+                                const stepProgress = i / (processSteps.length - 1);
+
+                                // Directly map useTransform on framer motion properties for seamless dynamic updates without re-renders.
+                                const circleBg = useTransform(scrollYProgress, [stepProgress - 0.05, stepProgress], ["#FFFFFF", "#2E5D8E"]);
+                                const circleBorder = useTransform(scrollYProgress, [stepProgress - 0.05, stepProgress], ["#E8E4DD", "#2E5D8E"]);
+                                const circleText = useTransform(scrollYProgress, [stepProgress - 0.05, stepProgress], ["#2E2C28", "#FFFFFF"]);
+
+                                return (<motion.div
+                                    initial={{ opacity: 0, x: isLeft ? -30 : 30 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: true, amount: 0.3 }}
+                                    transition={{ duration: 0.7, ease: "easeOut" }}
                                     key={i}
-                                    className="relative flex flex-col md:flex-row items-center md:items-start group"
+                                    className={`relative flex items-center justify-between w-full flex-col md:flex-row md:mb-12 ${isLeft ? 'md:flex-row-reverse' : ''}`}
                                 >
-                                    <div className="w-14 h-14 rounded-full bg-brand-secondary text-white font-bold text-xl flex items-center justify-center relative z-10 shrink-0 mx-auto md:mx-0 shadow-warm-glow ring-4 ring-white mb-4 md:mb-0">
-                                        {i + 1}
-                                    </div>
-                                    <div className="md:ml-8 text-center md:text-left bg-brand-bg border border-brand-border p-6 md:p-8 rounded-2xl flex-grow shadow-sm group-hover:shadow-warm-lg transition-transform hover:-translate-y-2">
-                                        <h3 className="text-2xl font-bold mb-2 text-brand-dark">{step.title}</h3>
-                                        <p className="text-brand-muted text-lg">{step.desc}</p>
+                                    {/* Empty Space for desktop balancing */}
+                                    <div className="hidden md:block w-[47%]" />
+
+                                    {/* Scroll Linked Center Step Indicator */}
+                                    <motion.div
+                                        className="z-10 w-12 h-12 md:w-14 md:h-14 rounded-full border-[3px] md:border-4 flex items-center justify-center font-bold text-xl md:text-2xl shadow-[0_0_0_6px_rgba(255,255,255,1)] md:shadow-[0_0_0_8px_rgba(255,255,255,1)] absolute left-[-48px] md:left-1/2 md:-translate-x-1/2 top-4 md:top-auto transition-colors duration-200"
+                                        style={{
+                                            backgroundColor: circleBg,
+                                            borderColor: circleBorder,
+                                            color: circleText
+                                        }}
+                                    >
+                                        <motion.span style={{ color: circleText }}>
+                                            {i + 1}
+                                        </motion.span>
+                                    </motion.div>
+
+                                    {/* Content Card */}
+                                    <div className={`w-full md:w-[47%] text-left md:pb-12`}>
+                                        <div
+                                            className="p-6 md:p-8 relative group transition-all duration-300 bg-[rgba(46,93,142,0.15)] backdrop-blur-[12px] rounded-2xl border border-[rgba(46,93,142,0.5)] shadow-[0_10px_25px_rgba(46,93,142,0.05)] hover:-translate-y-1 hover:shadow-[0_15px_35px_rgba(46,93,142,0.1)]"
+                                        >
+                                            <h3 className="text-2xl font-bold mb-3 text-[#1B3C5E]">{step.title}</h3>
+                                            <p className="text-brand-muted text-lg leading-relaxed">{step.desc}</p>
+                                        </div>
                                     </div>
                                 </motion.div>
-                            ))}
+                                );
+                            })}
                         </div>
                     </div>
                 </div>

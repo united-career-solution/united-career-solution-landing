@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence, useScroll } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { useRef, useState } from "react";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
@@ -43,11 +43,11 @@ export default function CandidatePage() {
     const ready = useScrollReady(500);
 
     const processSteps = [
-        { title: "Profile Analysis", desc: "We deep-dive into your resume, gaps, and unique strengths." },
-        { title: "Strategy Planning", desc: "Setting the precise targeting framework for roles you seek." },
-        { title: "Applications", desc: "We execute targeted applications using proven methods." },
-        { title: "Interview Support", desc: "1-on-1 prep to make sure you crush the technical and behavioral rounds." },
-        { title: "Offer Guidance", desc: "Negotiation strategies to get you exactly what you're worth." },
+        { title: "Profile Analysis", desc: "We conduct a deep-dive comprehensive analysis of your professional background, existing skill set, and career goals to precisely map out your unique competitive advantages in the global marketplace." },
+        { title: "Strategy Planning", desc: "Our experts develop a tailored career roadmap, setting a strategic targeting framework that matches your profile with the industries and roles most likely to offer visa sponsorship and long-term growth." },
+        { title: "Applications", desc: "We execute a high-impact application strategy on your behalf, utilizing optimized resumes and direct outreach to decision-makers, ensuring your profile bypasses automated filters and reaches actual hiring managers." },
+        { title: "Interview Support", desc: "Prepare for success with intensive 1-on-1 coaching sessions, mock interviews tailored to your target company's culture, and specialized guidance on both technical problem-solving and behavioral expectations." },
+        { title: "Offer Guidance", desc: "We provide expert support during the critical final stages, assisting with offer evaluation and deploying sophisticated negotiation strategies to ensure your final package reflects your true professional value." },
     ];
 
     return (
@@ -179,7 +179,7 @@ export default function CandidatePage() {
 
                 <div className="max-w-6xl mx-auto z-10 relative">
                     <div className="text-center mb-20">
-                        <SectionHeading center={true}>Our Services for Candidates</SectionHeading>
+                        <SectionHeading center={true}>How We Solve It</SectionHeading>
                         <p className="text-xl text-brand-muted mt-4 max-w-2xl mx-auto">
                             Comprehensive support designed to accelerate your career and get you hired with confidence.
                         </p>
@@ -224,23 +224,24 @@ export default function CandidatePage() {
                                 icon: DocumentIcon,
                             },
                         ].map((service, i) => (
-                            <motion.div
+                            <div
                                 key={i}
-                                initial={{ opacity: 0, y: 60 }}
-                                whileInView={ready ? { opacity: 1, y: 0 } : undefined}
-                                viewport={ready ? { once: true, amount: 0.15 } : undefined}
-                                transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }}
-                                className="group relative bg-brand-surface rounded-2xl border border-brand-border overflow-hidden transition-all duration-300 hover:-translate-y-3 hover:shadow-2xl"
+                                className="group relative bg-brand-surface rounded-2xl border border-brand-border overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
                             >
                                 {/* Animated Top Border */}
                                 <div className="absolute top-0 left-0 right-0 h-1 bg-brand-accent transform -translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-10" />
+
+                                {/* Step Indicator */}
+                                <div className="absolute top-4 right-4 z-20 bg-brand-dark/80 backdrop-blur-md px-4 py-1.5 rounded-full border border-brand-accent/30 shadow-lg text-brand-accent font-bold text-xs uppercase tracking-wider">
+                                    Step {i + 1}
+                                </div>
 
                                 {/* Image */}
                                 <div className="relative h-48 overflow-hidden">
                                     <img
                                         src={service.image}
                                         alt={service.title}
-                                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                        className="w-full h-full object-cover transition-transform duration-400 group-hover:scale-[1.05]"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/60 via-brand-dark/10 to-transparent" />
                                     <div className="absolute bottom-4 left-4 w-12 h-12 rounded-xl bg-brand-accent/90 backdrop-blur-sm flex items-center justify-center shadow-lg text-white [&_svg]:text-white">
@@ -253,7 +254,7 @@ export default function CandidatePage() {
                                     <h3 className="text-lg font-bold mb-3 text-brand-dark leading-snug">{service.title}</h3>
                                     <p className="text-brand-muted text-sm leading-relaxed">{service.desc}</p>
                                 </div>
-                            </motion.div>
+                            </div>
                         ))}
                     </div>
                 </div>
@@ -261,35 +262,74 @@ export default function CandidatePage() {
 
             {/* PROCESS TIMELINE */}
             <section className="py-24 px-6 bg-white overflow-hidden relative">
-                <div className="max-w-4xl mx-auto">
+                <div className="max-w-6xl mx-auto">
                     <SectionHeading center={true} className="mb-20">Our Process</SectionHeading>
 
                     <div className="relative" ref={timelineRef}>
-                        <div className="absolute left-1/2 md:left-[28px] top-0 bottom-0 w-1 bg-brand-border" />
+                        {/* Static Track */}
+                        <div className="absolute hidden md:block left-1/2 -translate-x-1/2 top-0 bottom-0 w-1 bg-brand-border" />
+
+                        {/* Dynamic Filling Track */}
                         <motion.div
-                            className="absolute left-1/2 md:left-[28px] top-0 bottom-0 w-1 bg-brand-accent origin-top z-0"
+                            className="absolute hidden md:block left-1/2 -translate-x-1/2 top-0 bottom-0 w-1 bg-brand-accent origin-top z-0"
                             style={{ scaleY: scrollYProgress }}
                         />
 
-                        <div className="space-y-12">
-                            {processSteps.map((step, i) => (
-                                <motion.div
-                                    initial={{ opacity: 0, y: 60 }}
-                                    whileInView={ready ? { opacity: 1, y: 0 } : undefined}
-                                    viewport={ready ? { once: true, amount: 0.2 } : undefined}
-                                    transition={{ delay: i * 0.1, duration: 0.6, ease: "easeOut" }}
-                                    key={i}
-                                    className="relative flex flex-col md:flex-row items-center md:items-start group"
-                                >
-                                    <div className="w-14 h-14 rounded-full bg-brand-accent text-brand-dark font-bold text-xl flex items-center justify-center relative z-10 shrink-0 mx-auto md:mx-0 shadow-warm-glow ring-4 ring-white mb-4 md:mb-0">
-                                        {i + 1}
-                                    </div>
-                                    <div className="md:ml-8 text-center md:text-left bg-brand-surface border border-brand-border p-6 md:p-8 rounded-2xl flex-grow shadow-sm group-hover:shadow-warm-lg transition-transform hover:-translate-y-2">
-                                        <h3 className="text-2xl font-bold mb-2 text-brand-dark">{step.title}</h3>
-                                        <p className="text-brand-muted text-lg">{step.desc}</p>
-                                    </div>
-                                </motion.div>
-                            ))}
+                        {/* Mobile dynamic track */}
+                        <div className="absolute md:hidden left-[26px] top-0 bottom-0 w-1 bg-brand-border" />
+                        <motion.div
+                            className="absolute md:hidden left-[26px] top-0 bottom-0 w-1 bg-brand-accent origin-top z-0"
+                            style={{ scaleY: scrollYProgress }}
+                        />
+
+                        <div className="space-y-10 md:space-y-0 w-full pl-12 md:pl-0">
+                            {processSteps.map((step, i) => {
+                                const isLeft = i % 2 === 0;
+                                const stepProgress = i / (processSteps.length - 1);
+
+                                // Directly map useTransform on framer motion properties for seamless dynamic updates without re-renders.
+                                const circleBg = useTransform(scrollYProgress, [stepProgress - 0.05, stepProgress], ["#FFFFFF", "#C8873A"]);
+                                const circleBorder = useTransform(scrollYProgress, [stepProgress - 0.05, stepProgress], ["#E8E4DD", "#C8873A"]);
+                                const circleText = useTransform(scrollYProgress, [stepProgress - 0.05, stepProgress], ["#2E2C28", "#FFFFFF"]);
+
+                                return (
+                                    <motion.div
+                                        initial={{ opacity: 0, x: isLeft ? -30 : 30 }}
+                                        whileInView={{ opacity: 1, x: 0 }}
+                                        viewport={{ once: true, amount: 0.3 }}
+                                        transition={{ duration: 0.7, ease: "easeOut" }}
+                                        key={i}
+                                        className={`relative flex items-center justify-between w-full flex-col md:flex-row md:mb-12 ${isLeft ? 'md:flex-row-reverse' : ''}`}
+                                    >
+                                        {/* Empty Space for desktop balancing */}
+                                        <div className="hidden md:block w-[47%]" />
+
+                                        {/* Scroll Linked Center Step Indicator */}
+                                        <motion.div
+                                            className="z-10 w-12 h-12 md:w-14 md:h-14 rounded-full border-[3px] md:border-4 flex items-center justify-center font-bold text-xl md:text-2xl shadow-[0_0_0_6px_rgba(255,255,255,1)] md:shadow-[0_0_0_8px_rgba(255,255,255,1)] absolute left-[-48px] md:left-1/2 md:-translate-x-1/2 top-4 md:top-auto transition-colors duration-200"
+                                            style={{
+                                                backgroundColor: circleBg,
+                                                borderColor: circleBorder,
+                                                color: circleText
+                                            }}
+                                        >
+                                            <motion.span style={{ color: circleText }}>
+                                                {i + 1}
+                                            </motion.span>
+                                        </motion.div>
+
+                                        {/* Content Card */}
+                                        <div className={`w-full md:w-[47%] text-left md:pb-12`}>
+                                            <div
+                                                className="p-6 md:p-8 relative group transition-all duration-300 bg-[rgba(200,135,58,0.15)] backdrop-blur-[12px] rounded-2xl border border-[rgba(200,135,58,0.5)] shadow-[0_10px_25px_rgba(200,135,58,0.05)] hover:-translate-y-1 hover:shadow-[0_15px_35px_rgba(200,135,58,0.1)]"
+                                            >
+                                                <h3 className="text-2xl font-bold mb-3 text-[#915D24]">{step.title}</h3>
+                                                <p className="text-brand-muted text-lg leading-relaxed">{step.desc}</p>
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                );
+                            })}
                         </div>
                     </div>
                 </div>
