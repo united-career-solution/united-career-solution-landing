@@ -1,6 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper/modules';
+import {
+    SiSamsung, SiIntel, SiGoogle, SiNetflix, SiSalesforce,
+    SiAdobe, SiSpotify, SiToyota, SiNike, SiDeloitte,
+    SiShopify, SiStripe, SiMicrosoft, SiApple, SiAmazon,
+    SiMeta, SiIbm
+} from 'react-icons/si';
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import AnimatedHeadline from "@/components/ui/AnimatedHeadline";
@@ -51,50 +59,46 @@ export default function AboutPage() {
                 {/* Texture Overlay */}
                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 z-0" />
 
-                <div className="max-w-5xl mx-auto relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={ready ? { opacity: 1, y: 0 } : undefined}
-                        viewport={ready ? { once: true, amount: 0.2 } : undefined}
-                        transition={{ duration: 0.6, ease: "easeOut" }}
-                        className="bg-white/[0.06] backdrop-blur-[12px] rounded-2xl p-6 md:p-8 shadow-lg border border-white/10 hover:-translate-y-1 hover:border-white/20 transition-all duration-300 h-full flex flex-col max-w-lg mx-auto w-full"
-                    >
-                        <h2 className="text-xl md:text-2xl mb-4 text-white font-bold tracking-tight">Our Story</h2>
-                        <div className="space-y-4 text-slate-300 leading-relaxed text-sm md:text-base flex-grow">
-                            <p>
-                                We started with a simple observation: the hiring market is fundamentally broken for both sides. Talented candidates send hundreds of resumes into the void, while companies drown in unqualified applications.
-                            </p>
-                            <p>
-                                United Career Solutions was founded to introduce strategy, precision, and human connection back into the equation. We act as a specialized bridge, focusing heavily on the nuances of the US and UK markets.
-                            </p>
-                            <p>
-                                Today, we are proud to have placed hundreds of candidates and partnered with leading tech firms, startups, and enterprises to build their dream teams.
-                            </p>
-                        </div>
-                    </motion.div>
+                <div className="max-w-6xl mx-auto relative z-10 space-y-24">
+                    {/* Our Story - Image Left, Text Right */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.6 }} className="relative h-80 md:h-[400px] overflow-hidden rounded-2xl group">
+                            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1000&q=80" alt="Team collaborating" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                            <div className="absolute inset-0 bg-brand-dark/20 group-hover:bg-transparent transition-colors duration-500" />
+                        </motion.div>
 
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={ready ? { opacity: 1, y: 0 } : undefined}
-                        viewport={ready ? { once: true, amount: 0.2 } : undefined}
-                        transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-                        className="bg-white/[0.06] backdrop-blur-[12px] rounded-2xl p-6 md:p-8 shadow-lg border border-white/10 hover:-translate-y-1 hover:border-white/20 transition-all duration-300 h-full flex flex-col max-w-lg mx-auto w-full"
-                    >
-                        <h2 className="text-xl md:text-2xl mb-4 text-white font-bold tracking-tight">Our Mission</h2>
-                        <div className="flex-grow flex flex-col">
-                            <p className="text-base md:text-lg font-medium text-white leading-relaxed italic mb-6 border-l-4 border-brand-accent pl-4 py-2 bg-white/5 rounded-r-lg">
+                        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.6, delay: 0.2 }} className="space-y-6">
+                            <h2 className="text-1xl md:text-2xl text-white font-bold tracking-tight inline-block bg-white/10 backdrop-blur-[10px] rounded-[40px] px-6 py-3 border border-white/20 shadow-lg">Our Story</h2>
+                            <div className="space-y-4 text-slate-300 leading-relaxed text-base md:text-lg">
+                                <p>We started with a simple observation: the hiring market is fundamentally broken for both sides. Talented candidates send hundreds of resumes into the void, while companies drown in unqualified applications.</p>
+                                <p>United Career Solutions was founded to introduce strategy, precision, and human connection back into the equation. We act as a specialized bridge, focusing heavily on the nuances of the US and UK markets.</p>
+                                <p>Today, we are proud to have placed hundreds of candidates and partnered with leading tech firms, startups, and enterprises to build their dream teams.</p>
+                            </div>
+                        </motion.div>
+                    </div>
+
+                    {/* Our Mission - Text Left, Image Right */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.6 }} className="order-2 md:order-1 space-y-6">
+                            <h2 className="text-1xl md:text-2xl text-white font-bold tracking-tight inline-block bg-white/10 backdrop-blur-[10px] rounded-[40px] px-6 py-3 border border-white/20 shadow-lg mb-2">Our Mission</h2>
+                            <p className="text-xl md:text-2xl font-medium text-white leading-relaxed italic border-l-4 border-brand-accent pl-6 py-2 bg-white/5 rounded-r-lg mt-4">
                                 "To democratize access to top global opportunities by completely removing friction from the hiring process."
                             </p>
-                            <div className="space-y-3 mt-2">
-                                <h4 className="font-bold text-white uppercase tracking-wider text-xs mb-3">Core Values</h4>
-                                <ul className="space-y-2">
-                                    <li className="flex items-center gap-3 text-slate-300 bg-white/5 p-2 rounded-md"><span className="w-2 h-2 rounded-full bg-brand-accent shadow-[0_0_8px_rgba(234,179,8,0.5)]"></span> <span className="font-medium text-sm md:text-base">Total Transparency</span></li>
-                                    <li className="flex items-center gap-3 text-slate-300 bg-white/5 p-2 rounded-md"><span className="w-2 h-2 rounded-full bg-brand-accent shadow-[0_0_8px_rgba(234,179,8,0.5)]"></span> <span className="font-medium text-sm md:text-base">Precision & Speed</span></li>
-                                    <li className="flex items-center gap-3 text-slate-300 bg-white/5 p-2 rounded-md"><span className="w-2 h-2 rounded-full bg-brand-accent shadow-[0_0_8px_rgba(234,179,8,0.5)]"></span> <span className="font-medium text-sm md:text-base">Human-Centric Focus</span></li>
+                            <div className="space-y-3 mt-8">
+                                <h4 className="font-bold text-white uppercase tracking-wider text-sm mb-4">Core Values</h4>
+                                <ul className="space-y-4">
+                                    <li className="flex items-center gap-4 text-slate-200 bg-white/5 p-3 rounded-lg"><span className="w-2.5 h-2.5 rounded-full bg-brand-accent shadow-[0_0_8px_rgba(234,179,8,0.5)]"></span> <span className="font-medium text-base">Total Transparency</span></li>
+                                    <li className="flex items-center gap-4 text-slate-200 bg-white/5 p-3 rounded-lg"><span className="w-2.5 h-2.5 rounded-full bg-brand-accent shadow-[0_0_8px_rgba(234,179,8,0.5)]"></span> <span className="font-medium text-base">Precision & Speed</span></li>
+                                    <li className="flex items-center gap-4 text-slate-200 bg-white/5 p-3 rounded-lg"><span className="w-2.5 h-2.5 rounded-full bg-brand-accent shadow-[0_0_8px_rgba(234,179,8,0.5)]"></span> <span className="font-medium text-base">Human-Centric Focus</span></li>
                                 </ul>
                             </div>
-                        </div>
-                    </motion.div>
+                        </motion.div>
+
+                        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.6, delay: 0.2 }} className="order-1 md:order-2 relative h-80 md:h-[400px] overflow-hidden rounded-2xl group">
+                            <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1000&q=80" alt="Corporate discussion" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                            <div className="absolute inset-0 bg-brand-dark/20 group-hover:bg-transparent transition-colors duration-500" />
+                        </motion.div>
+                    </div>
                 </div>
             </section>
 
@@ -135,6 +139,40 @@ export default function AboutPage() {
                 </div>
             </section>
 
+            {/* WHY US */}
+            <section className="py-24 px-6 bg-brand-bg relative overflow-hidden">
+                <div className="max-w-6xl mx-auto">
+                    <div className="text-center mb-16">
+                        <h2 className="text-4xl md:text-5xl font-bold text-brand-dark mb-4">Why Choose Us?</h2>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        {[
+                            { title: 'Industry Expertise', desc: 'Our recruiters understand the job market and match candidates with opportunities that align with their skills and career goals.', img: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80' },
+                            { title: 'Global Opportunities', desc: 'We connect talented professionals with companies across multiple industries and international markets.', img: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80' },
+                            { title: 'End-to-End Support', desc: 'From resume optimization to interview preparation and offer negotiation, we support candidates at every step.', img: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=800&q=80' }
+                        ].map((card, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: 40 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, amount: 0.2 }}
+                                transition={{ delay: i * 0.15, duration: 0.6, ease: "easeOut" }}
+                                className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-400 hover:-translate-y-2 border border-brand-border/50"
+                            >
+                                <div className="h-48 overflow-hidden relative">
+                                    <img src={card.img} alt={card.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                                    <div className="absolute inset-0 bg-brand-dark/10 group-hover:bg-transparent transition-colors duration-500" />
+                                </div>
+                                <div className="p-8">
+                                    <h3 className="text-xl font-bold text-brand-dark mb-3">{card.title}</h3>
+                                    <p className="text-brand-muted leading-relaxed text-sm">{card.desc}</p>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
             {/* CTA */}
             <section className="py-32 px-6 text-white text-center relative overflow-hidden">
                 {/* Gradient Background */}
@@ -144,7 +182,7 @@ export default function AboutPage() {
 
                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-accent/5 rounded-full blur-[100px] z-0"></div>
                 <div className="max-w-3xl mx-auto relative z-10">
-                    <h2 className="text-5xl md:text-6xl font-bold tracking-tight mb-8 text-white drop-shadow-sm">Let's Work Together</h2>
+                    <h2 className="text-5xl md:text-6xl font-bold tracking-tight mb-8 text-white drop-shadow-sm">Let&apos;s Work Together</h2>
                     <Button href="/contact" className="px-10 py-4 shadow-lg shadow-brand-accent/20 hover:-translate-y-1 transition-transform">Contact Our Team</Button>
                 </div>
             </section>
