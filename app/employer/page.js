@@ -7,7 +7,7 @@ import Card from "@/components/ui/Card";
 import SectionHeading from "@/components/ui/SectionHeading";
 import AnimatedHeadline from "@/components/ui/AnimatedHeadline";
 import TypewriterText from "@/components/ui/TypewriterText";
-import FloatingBadge from "@/components/ui/FloatingBadge";
+// import FloatingBadge from "@/components/ui/FloatingBadge";
 import HeroVideo from "@/components/ui/HeroVideo";
 import { useScrollReady } from "@/hooks/useScrollReady";
 
@@ -60,9 +60,9 @@ export default function EmployerPage() {
                 <div className="absolute inset-0 bg-black/50 z-[1]" />
 
                 {/* Floating Badges (Dark Mode specific border styling explicitly overriding default) */}
-                <FloatingBadge className="!bg-brand-surface/10 !text-white/90 !border-white/20 shadow-[0_0_20px_rgba(255,255,255,0.05)]" text="Vetted Full-Stack" top="8%" left="3%" delay={1.5} floatDuration={6} />
+                    {/* <FloatingBadge className="!bg-brand-surface/10 !text-white/90 !border-white/20 shadow-[0_0_20px_rgba(255,255,255,0.05)]" text="Vetted Full-Stack" top="8%" left="3%" delay={1.5} floatDuration={6} />
                 <FloatingBadge className="!bg-brand-surface/10 !text-white/90 !border-white/20 shadow-[0_0_20px_rgba(255,255,255,0.05)]" text="Immediate Starts" top="8%" right="3%" delay={1.8} floatDuration={5} />
-                <FloatingBadge className="!bg-brand-surface/10 !text-white/90 !border-white/20 shadow-[0_0_20px_rgba(255,255,255,0.05)]" text="Global Talent" bottom="8%" left="4%" delay={2.1} floatDuration={7} />
+                <FloatingBadge className="!bg-brand-surface/10 !text-white/90 !border-white/20 shadow-[0_0_20px_rgba(255,255,255,0.05)]" text="Global Talent" bottom="8%" left="4%" delay={2.1} floatDuration={7} /> */}
 
                 <div className="max-w-4xl mx-auto text-center relative z-10 w-full">
                     <AnimatedHeadline
@@ -199,6 +199,8 @@ export default function EmployerPage() {
                                 const circleBg = useTransform(scrollYProgress, [stepProgress - 0.05, stepProgress], ["#FFFFFF", "#2E5D8E"]);
                                 const circleBorder = useTransform(scrollYProgress, [stepProgress - 0.05, stepProgress], ["#E8E4DD", "#2E5D8E"]);
                                 const circleText = useTransform(scrollYProgress, [stepProgress - 0.05, stepProgress], ["#2E2C28", "#FFFFFF"]);
+                                const cardScale = useTransform(scrollYProgress, [stepProgress - 0.05, stepProgress], [1, 1.03]);
+                                const cardBg = useTransform(scrollYProgress, [stepProgress - 0.05, stepProgress], ["rgba(46,93,142,0.15)", "rgba(46,93,142,0.40)"]);
 
                                 return (<motion.div
                                     initial={{ opacity: 0, x: isLeft ? -30 : 30 }}
@@ -226,14 +228,15 @@ export default function EmployerPage() {
                                     </motion.div>
 
                                     {/* Content Card */}
-                                    <div className={`w-full md:w-[47%] text-left md:pb-12`}>
-                                        <div
-                                            className="p-6 md:p-8 relative group transition-all duration-300 bg-[rgba(46,93,142,0.15)] backdrop-blur-[12px] rounded-2xl border border-[rgba(46,93,142,0.5)] shadow-[0_10px_25px_rgba(46,93,142,0.05)] hover:-translate-y-1 hover:shadow-[0_15px_35px_rgba(46,93,142,0.1)]"
+                                    <motion.div className={`w-full md:w-[47%] text-left md:pb-12`} style={{ scale: cardScale }}>
+                                        <motion.div
+                                            className="p-6 md:p-8 relative group transition-all duration-300 backdrop-blur-[12px] rounded-2xl border border-[rgba(46,93,142,0.5)] shadow-[0_10px_25px_rgba(46,93,142,0.05)] hover:-translate-y-1 hover:shadow-[0_15px_35px_rgba(46,93,142,0.1)]"
+                                            style={{ backgroundColor: cardBg }}
                                         >
                                             <h3 className="text-2xl font-bold mb-3 text-[#1B3C5E]">{step.title}</h3>
                                             <p className="text-brand-muted text-lg leading-relaxed">{step.desc}</p>
-                                        </div>
-                                    </div>
+                                        </motion.div>
+                                    </motion.div>
                                 </motion.div>
                                 );
                             })}

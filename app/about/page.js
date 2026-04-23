@@ -116,23 +116,24 @@ export default function AboutPage() {
                         speed={40}
                         items={[
                             { name: "Google", icon: "google" },
-                            { name: "Amazon", icon: "amazon" },
-                            { name: "Microsoft", icon: "microsoft" },
+                            { name: "Netflix", icon: "netflix" },
+                            { name: "Airbnb", icon: "airbnb" },
                             { name: "Meta", icon: "meta" },
                             { name: "Apple", icon: "apple" },
                             { name: "Spotify", icon: "spotify" },
                             { name: "Barclays", icon: "barclays" },
                             { name: "HSBC", icon: "hsbc" },
-                            { name: "Bloomberg", icon: "bloomberg" },
+                            { name: "Accenture", icon: "accenture" },
                         ].map((company, i) => (
-                            <div key={i} className="flex items-center justify-center px-10 md:px-14 h-20">
+                            <div key={i} className="flex flex-col items-center justify-center gap-2 px-10 md:px-14 h-24">
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img
                                     src={`https://cdn.simpleicons.org/${company.icon}`}
                                     alt={company.name}
-                                    className="w-auto h-10 md:h-12 opacity-40 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500 object-contain cursor-default filter drop-shadow-sm"
+                                    className="w-auto h-10 md:h-12 object-contain"
                                     title={company.name}
                                 />
+                                <span className="text-xs font-medium text-brand-muted tracking-wide">{company.name}</span>
                             </div>
                         ))}
                     />

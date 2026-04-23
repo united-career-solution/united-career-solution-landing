@@ -7,7 +7,7 @@ import Card from "@/components/ui/Card";
 import SectionHeading from "@/components/ui/SectionHeading";
 import AnimatedHeadline from "@/components/ui/AnimatedHeadline";
 import TypewriterText from "@/components/ui/TypewriterText";
-import FloatingBadge from "@/components/ui/FloatingBadge";
+// import FloatingBadge from "@/components/ui/FloatingBadge";
 import HeroVideo from "@/components/ui/HeroVideo";
 import { useScrollReady } from "@/hooks/useScrollReady";
 
@@ -61,9 +61,9 @@ export default function CandidatePage() {
                 <div className="absolute inset-0 bg-black/50 z-[1]" />
 
                 {/* Floating Badges */}
-                <FloatingBadge className="!bg-white/10 !text-white/90 !border-white/20 shadow-[0_0_20px_rgba(255,255,255,0.05)]" text="Senior SWE Offers" top="8%" left="3%" delay={1.5} floatDuration={6} />
+                    {/* <FloatingBadge className="!bg-white/10 !text-white/90 !border-white/20 shadow-[0_0_20px_rgba(255,255,255,0.05)]" text="Senior SWE Offers" top="8%" left="3%" delay={1.5} floatDuration={6} />
                 <FloatingBadge className="!bg-white/10 !text-white/90 !border-white/20 shadow-[0_0_20px_rgba(255,255,255,0.05)]" text="$150k+ Placements" top="8%" right="3%" delay={1.8} floatDuration={5} />
-                <FloatingBadge className="!bg-white/10 !text-white/90 !border-white/20 shadow-[0_0_20px_rgba(255,255,255,0.05)]" text="Bypass the ATS" bottom="8%" left="4%" delay={2.1} floatDuration={7} />
+                <FloatingBadge className="!bg-white/10 !text-white/90 !border-white/20 shadow-[0_0_20px_rgba(255,255,255,0.05)]" text="Bypass the ATS" bottom="8%" left="4%" delay={2.1} floatDuration={7} /> */}
 
                 <div className="max-w-4xl mx-auto text-center relative z-10 w-full">
                     <AnimatedHeadline
@@ -103,7 +103,7 @@ export default function CandidatePage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 lg:gap-8">
                         {[
                             {
-                                label: "Pain Point #1",
+                                label: "Common Challenge #1",
                                 title: "Random Job Applications",
                                 desc: "Applying to hundreds of jobs without knowing if your profile actually matches what employers are looking for.",
                                 icon: (
@@ -113,7 +113,7 @@ export default function CandidatePage() {
                                 ),
                             },
                             {
-                                label: "Pain Point #2",
+                                label: "Common Challenge #2",
                                 title: "Lack of Career Guidance",
                                 desc: "No proper guidance on which roles or industries best fit your skills, experience, and visa eligibility.",
                                 icon: (
@@ -123,7 +123,7 @@ export default function CandidatePage() {
                                 ),
                             },
                             {
-                                label: "Pain Point #3",
+                                label: "Common Challenge #3",
                                 title: "Unclear Hiring Processes",
                                 desc: "Confusing recruitment pipelines and unrealistic promises from agencies leave you stuck in limbo.",
                                 icon: (
@@ -133,7 +133,7 @@ export default function CandidatePage() {
                                 ),
                             },
                             {
-                                label: "Pain Point #4",
+                                label: "Common Challenge #4",
                                 title: "Interview Preparation Gaps",
                                 desc: "Struggling to prepare for international interview standards and employer expectations without proper support.",
                                 icon: (
@@ -291,6 +291,8 @@ export default function CandidatePage() {
                                 const circleBg = useTransform(scrollYProgress, [stepProgress - 0.05, stepProgress], ["#FFFFFF", "#C8873A"]);
                                 const circleBorder = useTransform(scrollYProgress, [stepProgress - 0.05, stepProgress], ["#E8E4DD", "#C8873A"]);
                                 const circleText = useTransform(scrollYProgress, [stepProgress - 0.05, stepProgress], ["#2E2C28", "#FFFFFF"]);
+                                const cardScale = useTransform(scrollYProgress, [stepProgress - 0.05, stepProgress], [1, 1.03]);
+                                const cardBg = useTransform(scrollYProgress, [stepProgress - 0.05, stepProgress], ["rgba(200,135,58,0.15)", "rgba(200,135,58,0.40)"]);
 
                                 return (
                                     <motion.div
@@ -319,14 +321,15 @@ export default function CandidatePage() {
                                         </motion.div>
 
                                         {/* Content Card */}
-                                        <div className={`w-full md:w-[47%] text-left md:pb-12`}>
-                                            <div
-                                                className="p-6 md:p-8 relative group transition-all duration-300 bg-[rgba(200,135,58,0.15)] backdrop-blur-[12px] rounded-2xl border border-[rgba(200,135,58,0.5)] shadow-[0_10px_25px_rgba(200,135,58,0.05)] hover:-translate-y-1 hover:shadow-[0_15px_35px_rgba(200,135,58,0.1)]"
+                                        <motion.div className={`w-full md:w-[47%] text-left md:pb-12`} style={{ scale: cardScale }}>
+                                            <motion.div
+                                                className="p-6 md:p-8 relative group transition-all duration-300 backdrop-blur-[12px] rounded-2xl border border-[rgba(200,135,58,0.5)] shadow-[0_10px_25px_rgba(200,135,58,0.05)] hover:-translate-y-1 hover:shadow-[0_15px_35px_rgba(200,135,58,0.1)]"
+                                                style={{ backgroundColor: cardBg }}
                                             >
                                                 <h3 className="text-2xl font-bold mb-3 text-[#915D24]">{step.title}</h3>
                                                 <p className="text-brand-muted text-lg leading-relaxed">{step.desc}</p>
-                                            </div>
-                                        </div>
+                                            </motion.div>
+                                        </motion.div>
                                     </motion.div>
                                 );
                             })}

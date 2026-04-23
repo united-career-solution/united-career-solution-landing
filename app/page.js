@@ -8,7 +8,7 @@ import AnimatedCounter from "@/components/ui/AnimatedCounter";
 import SectionHeading from "@/components/ui/SectionHeading";
 import AnimatedHeadline from "@/components/ui/AnimatedHeadline";
 import TypewriterText from "@/components/ui/TypewriterText";
-import FloatingBadge from "@/components/ui/FloatingBadge";
+// import FloatingBadge from "@/components/ui/FloatingBadge";
 import InfiniteMarquee from "@/components/ui/InfiniteMarquee";
 import GlobalOpportunitiesMap from "@/components/world-map/GlobalOpportunitiesMap";
 import { useScrollReady } from "@/hooks/useScrollReady";
