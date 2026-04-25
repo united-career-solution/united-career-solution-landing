@@ -10,7 +10,7 @@ import AnimatedHeadline from "@/components/ui/AnimatedHeadline";
 import TypewriterText from "@/components/ui/TypewriterText";
 // import FloatingBadge from "@/components/ui/FloatingBadge";
 import InfiniteMarquee from "@/components/ui/InfiniteMarquee";
-import GlobalOpportunitiesMap from "@/components/world-map/GlobalOpportunitiesMap";
+import HeroMapAnimation from "@/components/hero/HeroMapAnimation";
 import { useScrollReady } from "@/hooks/useScrollReady";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
@@ -210,8 +210,8 @@ export default function Home() {
         <FloatingBadge text="Fast 48h Hiring" top="8%" right="3%" delay={1.8} floatDuration={5} />
         <FloatingBadge text="Pre-Vetted" bottom="8%" left="4%" delay={2.1} floatDuration={7} />*/}
 
-        <div className="max-w-7xl mx-auto px-6 w-full z-10 pt-24 lg:pt-0 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-4">
-          <div className="w-full lg:w-1/2 text-center lg:text-left flex flex-col justify-center">
+        <div className="max-w-7xl mx-auto px-6 w-full z-10 pt-24 lg:pt-0 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-2">
+          <div className="w-full lg:w-[45%] text-center lg:text-left flex flex-col justify-center">
             <AnimatedHeadline
               text="Stop Applying Blindly. Start Getting Hired."
               delay={0.2}
@@ -241,9 +241,9 @@ export default function Home() {
             </motion.div>
           </div>
 
-          {/* Map Component integrated as the right column */}
-          <div className="w-full lg:w-1/2 relative z-10 flex justify-center items-center scale-110 md:scale-125 lg:scale-110 lg:translate-x-8">
-            <GlobalOpportunitiesMap />
+          {/* USA & UK Animated Map — larger, more prominent */}
+          <div className="w-full lg:w-[55%] relative z-10 flex justify-center items-center overflow-visible">
+            <HeroMapAnimation />
           </div>
         </div>
 
