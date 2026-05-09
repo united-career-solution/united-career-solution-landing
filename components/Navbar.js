@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -39,6 +40,13 @@ export default function Navbar() {
             <div className="max-w-6xl mx-auto px-6 md:px-8 flex items-center justify-between">
                 {/* Logo */}
                 <Link href="/" className="flex items-center gap-2 group">
+                    <Image
+                        src="/logo.jpeg"
+                        alt="United Career Solutions Logo"
+                        width={36}
+                        height={36}
+                        className="rounded-full object-contain"
+                    />
                     <span className="font-heading font-bold text-brand-dark text-xl tracking-tight">
                         United Career <span className="text-brand-accent">Solutions</span>
                     </span>
