@@ -41,7 +41,7 @@ export default function Navbar() {
                 {/* Logo */}
                 <Link href="/" className="flex items-center gap-2 group">
                     <Image
-                        src="/logo.jpeg"
+                        src="/logo.svg"
                         alt="United Career Solutions Logo"
                         width={36}
                         height={36}
