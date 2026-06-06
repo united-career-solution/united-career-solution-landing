@@ -268,11 +268,11 @@ export default function Home() {
         <InfiniteMarquee
           speed={30}
           items={[
-            <span key="1" className="font-heading font-bold text-3xl tracking-tighter text-brand-muted opacity-50 hover:opacity-100 transition-opacity hover:text-brand-accent cursor-default">FinTech</span>,
-            <span key="2" className="font-heading font-bold text-3xl tracking-widest text-brand-muted opacity-50 hover:opacity-100 transition-opacity hover:text-brand-accent cursor-default">AI & Machine Learning</span>,
-            <span key="3" className="font-heading font-bold text-3xl italic text-brand-muted opacity-50 hover:opacity-100 transition-opacity hover:text-brand-accent cursor-default">SaaS</span>,
-            <span key="4" className="font-heading font-bold text-3xl tracking-tighter text-brand-muted opacity-50 hover:opacity-100 transition-opacity hover:text-brand-accent cursor-default">HealthTech</span>,
-            <span key="5" className="font-heading font-bold text-3xl tracking-wider text-brand-muted opacity-50 hover:opacity-100 transition-opacity hover:text-brand-accent cursor-default">E-Commerce</span>,
+            <span key="1" className="font-heading font-bold text-3xl tracking-tighter transition-opacity cursor-default" style={{ color: '#021057' }}>FinTech</span>,
+            <span key="2" className="font-heading font-bold text-3xl tracking-widest transition-opacity cursor-default" style={{ color: '#021057' }}>AI & Machine Learning</span>,
+            <span key="3" className="font-heading font-bold text-3xl italic transition-opacity cursor-default" style={{ color: '#021057' }}>SaaS</span>,
+            <span key="4" className="font-heading font-bold text-3xl tracking-tighter transition-opacity cursor-default" style={{ color: '#021057' }}>HealthTech</span>,
+            <span key="5" className="font-heading font-bold text-3xl tracking-wider transition-opacity cursor-default" style={{ color: '#021057' }}>E-Commerce</span>,
           ]}
         />
       </section>
@@ -360,9 +360,9 @@ export default function Home() {
 
         <div className="max-w-5xl mx-auto relative z-10 grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
           {[
-            { num: 200, suffix: "+", label: "Candidates Placed" },
+            { num: 700, suffix: "+", label: "Candidates Placed" },
             { num: 50, suffix: "+", label: "Hiring Partners" },
-            { num: 70, suffix: "%", label: "Interview Success Rate" },
+            { num: 85, suffix: "%", label: "Interview Success Rate" },
             { num: 48, prefix: "", suffix: "–72 Hrs", label: "Hiring Turnaround" },
           ].map((stat, i) => (
             <motion.div

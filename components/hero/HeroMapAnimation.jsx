@@ -1,43 +1,101 @@
 "use client";
 
-import { memo } from "react";
+import { memo, useContext } from "react";
 import { motion } from "framer-motion";
-import CityPulseMarker from "./CityPulseMarker";
-import ConnectionLines from "./ConnectionLines";
+import {
+  ComposableMap,
+  Geographies,
+  Geography,
+  Marker,
+  MapContext,
+} from "react-simple-maps";
 import FloatingJobIcons from "./FloatingJobIcons";
 import { useParallax } from "@/hooks/useParallax";
-import {
-  US_STATES_PATH,
-  UK_MAIN_PATH,
-  UK_IRELAND_PATH,
-  UK_REGIONS_PATH,
-} from "./mapPaths";
 
 /**
- * HeroMapAnimation — Main orchestrator for the USA & UK animated map experience.
+ * HeroMapAnimation — Full world map with USA & UK highlighted.
  *
- * Features:
- * - Continental USA with 49 state boundaries (no Alaska/Hawaii)
- * - UK (Great Britain + Ireland) with Scotland/England/Wales region borders
- * - City pulse markers, network connection lines, floating icons, parallax depth
- *
- * SVG paths extracted from Natural Earth via us-atlas@3 and world-atlas@2.
- * viewBox: 0 0 100 80 — USA fills left ~58%, UK fills right ~30%.
+ * Animated arcs from India → USA and India → UK.
+ * Uses MapContext to get the exact projection, so arc endpoints are
+ * always pixel-perfect regardless of viewport size.
  */
 
-// --- City coordinates — projected from real lat/lon to percentage positions ---
-const cities = {
-  usa: [
-    { city: "New York",    x: 52.3,  y: 46.5,  primary: true,  delay: 0.2 },
-    { city: "Los Angeles", x: 6.9,   y: 55.0,  primary: true,  delay: 0.6 },
-    { city: "Houston",     x: 30.4,  y: 60.5,  primary: false, delay: 1.0 },
-    { city: "Chicago",     x: 38.3,  y: 45.0,  primary: false, delay: 1.4 },
-  ],
-  uk: [
-    { city: "London",      x: 86.3,  y: 59.0,  primary: true,  delay: 0.4 },
-    { city: "Manchester",  x: 80.8,  y: 52.6,  primary: false, delay: 0.8 },
-  ],
-};
+const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
+const HIGHLIGHTED = new Set(["840", "826"]);
+
+// Accent color from globals.css
+const ACCENT = "#C8873A";
+
+// Coordinates [lon, lat]
+const INDIA_COORD  = [78.9629, 22.5937];   // geographic centre of India
+const USA_COORD    = [-98.5795, 39.8283];  // geographic centre of USA
+const UK_COORD     = [-3.4360,  55.3781];  // geographic centre of UK
+
+const cities = [
+  { city: "New York",    coordinates: [-74.006,  40.712], primary: true  },
+  { city: "Los Angeles", coordinates: [-118.244, 34.052], primary: false },
+  { city: "Chicago",     coordinates: [-87.629,  41.878], primary: false },
+  { city: "London",      coordinates: [-0.128,   51.507], primary: true  },
+  { city: "Mumbai",      coordinates: [72.877,   19.076], primary: true  },
+];
+
+/**
+ * Draws animated arcs by reading the real projection from MapContext.
+ * This guarantees the paths start/end exactly on the country centres.
+ */
+function AnimatedArcs() {
+  const { projection } = useContext(MapContext);
+  if (!projection) return null;
+
+  const [ix, iy] = projection(INDIA_COORD);
+  const [ux, uy] = projection(USA_COORD);
+  const [kx, ky] = projection(UK_COORD);
+
+  // Quadratic bezier — control point floats above the midpoint
+  const usaCtrlX = (ix + ux) / 2;
+  const usaCtrlY = Math.min(iy, uy) - 90;
+  const ukCtrlX  = (ix + kx) / 2;
+  const ukCtrlY  = Math.min(iy, ky) - 60;
+
+  const usaD = `M ${ix} ${iy} Q ${usaCtrlX} ${usaCtrlY} ${ux} ${uy}`;
+  const ukD  = `M ${ix} ${iy} Q ${ukCtrlX}  ${ukCtrlY}  ${kx} ${ky}`;
+
+  return (
+    <g>
+      {/* ── India → USA ── */}
+      {/* soft glow */}
+      <path d={usaD} fill="none" stroke={ACCENT} strokeWidth={4} strokeLinecap="round" opacity={0.18} />
+      {/* animated line */}
+      <path d={usaD} fill="none" stroke={ACCENT} strokeWidth={1.8} strokeLinecap="round"
+        strokeDasharray="800" strokeDashoffset="800">
+        <animate attributeName="stroke-dashoffset" from="800" to="0"
+          dur="3s" repeatCount="indefinite" />
+      </path>
+      {/* dot travelling along USA arc */}
+      <circle r="3" fill={ACCENT} opacity="0.95">
+        <animateMotion dur="3s" repeatCount="indefinite" rotate="auto">
+          <mpath href="#arc-usa" />
+        </animateMotion>
+      </circle>
+      <path id="arc-usa" d={usaD} fill="none" visibility="hidden" />
+
+      {/* ── India → UK ── */}
+      <path d={ukD} fill="none" stroke={ACCENT} strokeWidth={4} strokeLinecap="round" opacity={0.18} />
+      <path d={ukD} fill="none" stroke={ACCENT} strokeWidth={1.8} strokeLinecap="round"
+        strokeDasharray="500" strokeDashoffset="500">
+        <animate attributeName="stroke-dashoffset" from="500" to="0"
+          dur="2.4s" begin="1s" repeatCount="indefinite" />
+      </path>
+      {/* dot travelling along UK arc */}
+      <circle r="3" fill={ACCENT} opacity="0.95">
+        <animateMotion dur="2.4s" begin="1s" repeatCount="indefinite" rotate="auto">
+          <mpath href="#arc-uk" />
+        </animateMotion>
+      </circle>
+      <path id="arc-uk" d={ukD} fill="none" visibility="hidden" />
+    </g>
+  );
+}
 
 function HeroMapAnimation() {
   const parallax = useParallax(12);
@@ -47,186 +105,99 @@ function HeroMapAnimation() {
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
-      className="relative w-full max-w-[780px] mx-auto"
+      className="relative w-full max-w-[820px] mx-auto"
       style={{
-        aspectRatio: "100 / 80",
         transform: `translate3d(${parallax.x}px, ${parallax.y}px, 0)`,
         willChange: "transform",
       }}
     >
-      {/* Ambient glow behind the maps */}
+      {/* Ambient glow */}
       <div className="absolute inset-0 -z-10">
-        <div
-          className="absolute top-1/4 left-1/6 w-56 h-56 md:w-80 md:h-80 rounded-full blur-[100px]"
-          style={{ backgroundColor: "rgba(200, 135, 58, 0.08)" }}
-        />
-        <div
-          className="absolute top-1/4 right-1/6 w-44 h-44 md:w-64 md:h-64 rounded-full blur-[80px]"
-          style={{ backgroundColor: "rgba(46, 93, 142, 0.06)" }}
-        />
+        <div className="absolute top-1/3 left-1/4 w-56 h-56 md:w-80 md:h-80 rounded-full blur-[100px]"
+          style={{ backgroundColor: "rgba(200, 135, 58, 0.10)" }} />
+        <div className="absolute top-1/3 right-1/4 w-44 h-44 md:w-64 md:h-64 rounded-full blur-[80px]"
+          style={{ backgroundColor: "rgba(46, 93, 142, 0.08)" }} />
       </div>
 
-      {/* Subtle dot-grid background for depth */}
-      <svg
-        className="absolute inset-0 w-full h-full opacity-[0.03] z-[1]"
-        viewBox="0 0 100 80"
-        preserveAspectRatio="none"
-      >
-        <defs>
-          <pattern id="heroGrid" x="0" y="0" width="4" height="4" patternUnits="userSpaceOnUse">
-            <circle cx="2" cy="2" r="0.3" fill="var(--color-brand-dark)" />
-          </pattern>
-        </defs>
-        <rect width="100" height="80" fill="url(#heroGrid)" />
-      </svg>
-
-      {/* === MAP SVG LAYER — State & region-level detail === */}
-      <svg
-        viewBox="0 0 100 80"
-        className="absolute inset-0 w-full h-full z-[2]"
-        preserveAspectRatio="xMidYMid meet"
-        fill="none"
-      >
-        <defs>
-          {/* Map fill — USA states */}
-          <linearGradient id="usaStateFill" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="var(--color-brand-secondary)" stopOpacity="0.10" />
-            <stop offset="100%" stopColor="var(--color-brand-secondary)" stopOpacity="0.05" />
-          </linearGradient>
-          {/* Map fill — UK */}
-          <linearGradient id="ukFill" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="var(--color-brand-secondary)" stopOpacity="0.14" />
-            <stop offset="100%" stopColor="var(--color-brand-secondary)" stopOpacity="0.07" />
-          </linearGradient>
-          {/* Subtle glow for map strokes */}
-          <filter id="mapGlow">
-            <feGaussianBlur stdDeviation="0.12" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
-
-        {/* ---- Continental USA (49 state boundaries, no Alaska) ---- */}
-        <motion.g
-          initial={{ opacity: 0, x: -3 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
+      {/* World map */}
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+        transition={{ duration: 1.2, delay: 0.5 }} className="w-full">
+        <ComposableMap
+          projectionConfig={{ scale: 147, center: [0, 15] }}
+          className="w-full h-auto"
+          style={{ background: "transparent" }}
         >
-          <path
-            d={US_STATES_PATH}
-            fill="url(#usaStateFill)"
-            stroke="var(--color-brand-secondary)"
-            strokeWidth="0.12"
-            strokeOpacity="0.25"
-            strokeLinejoin="round"
-            filter="url(#mapGlow)"
-          />
+          {/* Countries */}
+          <Geographies geography={geoUrl}>
+            {({ geographies }) =>
+              geographies.map((geo) => {
+                const isHighlighted = HIGHLIGHTED.has(geo.id);
+                return (
+                  <Geography
+                    key={geo.rsmKey}
+                    geography={geo}
+                    fill={isHighlighted ? ACCENT : "rgba(46, 93, 142, 0.12)"}
+                    stroke={isHighlighted ? "rgba(255,255,255,0.5)" : "rgba(46, 93, 142, 0.25)"}
+                    strokeWidth={isHighlighted ? 0.6 : 0.3}
+                    style={{
+                      default: { outline: "none" },
+                      hover: { outline: "none", fill: isHighlighted ? ACCENT : "rgba(46, 93, 142, 0.22)" },
+                      pressed: { outline: "none" },
+                    }}
+                  />
+                );
+              })
+            }
+          </Geographies>
+
+          {/* Animated arcs — reads real projection from MapContext */}
+          <AnimatedArcs />
+
+          {/* City dots */}
+          {cities.map((c) => (
+            <Marker key={c.city} coordinates={c.coordinates}>
+              <circle r={c.primary ? 3 : 2}
+                fill={c.primary ? ACCENT : "var(--color-brand-secondary)"}
+                stroke="#fff" strokeWidth={0.8} opacity={0.9} />
+            </Marker>
+          ))}
+
+          {/* India highlighted dot + label */}
+          <Marker coordinates={INDIA_COORD}>
+            <circle r={5} fill={ACCENT} stroke="#fff" strokeWidth={1.2} opacity={0.95} />
+            <circle r={9} fill="none" stroke={ACCENT} strokeWidth={0.8} opacity={0.35} />
+            <text y={-12} textAnchor="middle" fontSize={7} fontWeight="700"
+              fill={ACCENT} style={{ fontFamily: "var(--font-heading)" }}>
+              India
+            </text>
+          </Marker>
+
           {/* USA label */}
-          <text
-            x="28"
-            y="54"
-            fill="var(--color-brand-secondary)"
-            fontSize="3.2"
-            fontWeight="700"
-            fontFamily="var(--font-heading)"
-            opacity="0.10"
-            letterSpacing="0.4"
-          >
-            USA
-          </text>
-        </motion.g>
+          <Marker coordinates={USA_COORD}>
+            <text y={-8} textAnchor="middle" fontSize={6} fontWeight="700"
+              fill={ACCENT} opacity={0.7} style={{ fontFamily: "var(--font-heading)" }}>
+              USA
+            </text>
+          </Marker>
 
-        {/* ---- UK (Great Britain + Ireland + region boundaries) ---- */}
-        <motion.g
-          initial={{ opacity: 0, x: 3 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, delay: 0.7, ease: "easeOut" }}
-        >
-          {/* Great Britain mainland */}
-          <path
-            d={UK_MAIN_PATH}
-            fill="url(#ukFill)"
-            stroke="var(--color-brand-secondary)"
-            strokeWidth="0.18"
-            strokeOpacity="0.35"
-            strokeLinejoin="round"
-            filter="url(#mapGlow)"
-          />
-          {/* Ireland */}
-          <path
-            d={UK_IRELAND_PATH}
-            fill="url(#ukFill)"
-            stroke="var(--color-brand-secondary)"
-            strokeWidth="0.12"
-            strokeOpacity="0.2"
-            strokeLinejoin="round"
-          />
-          {/* Internal region boundaries (Scotland/England/Wales) */}
-          <path
-            d={UK_REGIONS_PATH}
-            fill="none"
-            stroke="var(--color-brand-secondary)"
-            strokeWidth="0.12"
-            strokeOpacity="0.2"
-            strokeLinejoin="round"
-            strokeDasharray="0.4,0.3"
-          />
           {/* UK label */}
-          <text
-            x="80"
-            y="62"
-            fill="var(--color-brand-secondary)"
-            fontSize="2.6"
-            fontWeight="700"
-            fontFamily="var(--font-heading)"
-            opacity="0.10"
-            letterSpacing="0.2"
-            textAnchor="middle"
-          >
-            UK
-          </text>
-        </motion.g>
+          <Marker coordinates={UK_COORD}>
+            <text y={-8} textAnchor="middle" fontSize={6} fontWeight="700"
+              fill={ACCENT} opacity={0.7} style={{ fontFamily: "var(--font-heading)" }}>
+              UK
+            </text>
+          </Marker>
+        </ComposableMap>
+      </motion.div>
 
-        {/* ---- Atlantic Ocean label ---- */}
-        <text
-          x="60"
-          y="66"
-          fill="var(--color-brand-muted)"
-          fontSize="1.4"
-          fontStyle="italic"
-          opacity="0.05"
-          textAnchor="middle"
-          letterSpacing="0.5"
-        >
-          ATLANTIC
-        </text>
-      </svg>
-
-      {/* === CONNECTION LINES LAYER === */}
-      <ConnectionLines />
-
-      {/* === CITY PULSE MARKERS === */}
-      {[...cities.usa, ...cities.uk].map((c) => (
-        <CityPulseMarker
-          key={c.city}
-          city={c.city}
-          x={c.x}
-          y={c.y}
-          delay={c.delay}
-          primary={c.primary}
-        />
-      ))}
-
-      {/* === FLOATING ICONS === */}
+      {/* Floating Icons */}
       <FloatingJobIcons />
 
-      {/* === DECORATIVE CORNER ACCENTS === */}
+      {/* Corner accents */}
       <div className="absolute top-0 left-0 w-12 h-12 md:w-16 md:h-16 border-l border-t border-brand-accent/10 rounded-tl-lg z-[1]" />
       <div className="absolute bottom-0 right-0 w-12 h-12 md:w-16 md:h-16 border-r border-b border-brand-accent/10 rounded-br-lg z-[1]" />
 
-      {/* "Connecting Talent Globally" badge */}
+      {/* Badge */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
