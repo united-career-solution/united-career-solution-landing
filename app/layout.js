@@ -19,7 +19,7 @@ const poppins = Poppins({
 });
 
 export const metadata = {
-  title: 'United Career Solutions | Premium Hiring & Career Growth',
+  title: 'United Career Solutions | Connecting Talent with Opportunities',
   description: 'Premium hiring and career growth brand helping candidates land full-time jobs in the US & UK and helping companies hire pre-vetted talent faster.',
   icons: {
     icon: '/favicon.ico',
