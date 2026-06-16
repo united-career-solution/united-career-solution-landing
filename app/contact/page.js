@@ -194,7 +194,7 @@ export default function ContactPage() {
                                 <div>
                                     <h4 className="font-bold text-brand-dark">Email Us</h4>
                                     <p className="text-brand-muted mb-2">Our friendly team is here to help.</p>
-                                    <a href="mailto:hello@unitedcareersolution.com" className="text-brand-accent font-medium hover:underline break-all">hello@unitedcareersolution.com</a>
+                                    <a href="mailto:info@unitedcareersolution.com" className="text-brand-accent font-medium hover:underline break-all">info@unitedcareersolution.com</a>
                                 </div>
                             </div>
                         </div>
