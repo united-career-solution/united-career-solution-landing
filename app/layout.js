@@ -1,3 +1,4 @@
+import Script from 'next/script';
 import { Inter, Poppins } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/Navbar';
@@ -37,6 +38,11 @@ export default function RootLayout({ children }) {
           {children}
         </main>
         <Footer />
+        <Script
+          src="https://helixbots.io/widget.js"
+          data-site-key="15cf2a33-2fd4-4709-b3c0-e294aaa04a20"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
