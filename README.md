@@ -39,8 +39,13 @@ To reset the admin account against a local database, run
 
 The `Deploy Landing Page` workflow builds the standalone output, copies it to
 `/var/www/united-career-solution/landing` and restarts it with PM2 using the
-`ecosystem.config.js` on the server (port 5000). The server's PM2 config must
-provide all the environment variables above.
+`ecosystem.config.js` on the server (port 5000).
+
+The environment variables above go in `/var/www/united-career-solution/landing/.env`
+on the server (same format as `.env.example`). The standalone `server.js` loads
+it automatically on start, and deploys don't overwrite it. Don't also set these
+variables in `ecosystem.config.js`: values set there take precedence over `.env`.
+After editing `.env`, restart the app (`pm2 restart ecosystem.config.js`).
 
 ### Redirecting the old subdomains
 
