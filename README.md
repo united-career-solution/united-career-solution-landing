@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# United Career Solutions
 
-## Getting Started
+One Next.js app that serves the public website, the admin panel and the API
+(previously three separate repos/PM2 processes: landing, admin, api).
 
-First, run the development server:
+| Path | What |
+|---|---|
+| `/`, `/about`, `/contact`, `/employer`, `/candidate` | Public website — `app/(site)/` |
+| `/admin/login`, `/admin/dashboard` | Admin panel — `app/admin/` |
+| `/api/contact`, `/api/admin/*` | API route handlers — `app/api/` |
+
+The site and the admin panel each have their own root layout, so the admin
+panel keeps its own styles and does not show the site's navbar, footer or chat
+widget. Server-side code (MongoDB connection, models, auth) lives in `lib/`.
+
+## Getting started
 
 ```bash
+cp .env.example .env.local   # then fill in the values
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000). A MongoDB instance is
+required for the contact form and the admin panel.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Name | Purpose |
+|---|---|
+| `MONGODB_URI` | MongoDB connection string |
+| `JWT_SECRET` | Secret used to sign admin login tokens |
+| `ADMIN_EMAIL` / `ADMIN_PASSWORD` | Admin account created on first DB connection if no admin exists |
 
-## Learn More
+To reset the admin account against a local database, run
+`node scripts/reset-admin.mjs`.
 
-To learn more about Next.js, take a look at the following resources:
+## Deployment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The `Deploy Landing Page` workflow builds the standalone output, copies it to
+`/var/www/united-career-solution/landing` and restarts it with PM2 using the
+`ecosystem.config.js` on the server (port 5000).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The environment variables above go in `/var/www/united-career-solution/landing/.env`
+on the server (same format as `.env.example`). The standalone `server.js` loads
+it automatically on start, and deploys don't overwrite it. Don't also set these
+variables in `ecosystem.config.js`: values set there take precedence over `.env`.
+After editing `.env`, restart the app (`pm2 restart ecosystem.config.js`).
 
-## Deploy on Vercel
+### Redirecting the old subdomains
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The admin panel and API used to run on their own subdomains. Point those at
+the merged app with nginx (keep each block's existing `listen 443 ssl` and
+certificate lines):
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```nginx
+server {
+    server_name admin.unitedcareersolution.com;
+    # Old admin paths (/login, /dashboard) now live under /admin
+    return 301 https://unitedcareersolution.com/admin$request_uri;
+}
+
+server {
+    server_name api.unitedcareersolution.com;
+    # API paths are unchanged; 308 keeps the request method and body (POST etc.)
+    return 308 https://unitedcareersolution.com$request_uri;
+}
+```
+
+The old `api` and `admin` PM2 processes can then be removed
+(`pm2 delete <name> && pm2 save`).
