@@ -24,7 +24,8 @@ jobs:
         run: npm run build
         env:
           NODE_ENV: production
-          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+          # Real value is provided at runtime by PM2 on the server; this only satisfies the build-time check
+          MONGODB_URI: "mongodb://dummy-string-just-to-pass-the-build-check"
 
       - name: Prepare Standalone Output
         run: |

@@ -22,8 +22,7 @@ export default function ContactPage() {
             const data = Object.fromEntries(formData.entries());
             data.role = role; // Include whether they are candidate or employer
 
-            const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001";
-            await fetch(`${apiUrl}/api/contact`, {
+            await fetch("/api/contact", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
