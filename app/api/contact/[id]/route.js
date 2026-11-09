@@ -1,7 +1,7 @@
 import connectDB from "@/lib/db";
 import Contact from "@/lib/models/Contact";
 import { successResponse, errorResponse } from "@/lib/responseHandler";
-import mongoose from "mongoose";
+
 
 /**
  * GET /api/contact/[id]
@@ -11,8 +11,8 @@ export async function GET(request, { params }) {
   try {
     const { id } = await params;
 
-    // Validate MongoDB ObjectId format
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    // Validate contact ID format
+    if (!/^[0-9a-f]{24}$/i.test(id)) {
       return errorResponse("Invalid contact ID format", 400);
     }
 

@@ -1,38 +1,19 @@
-// Quick script to reset the admin user
-// Run: node scripts/reset-admin.mjs
-
-import mongoose from "mongoose";
+import { loadEnvConfig } from "@next/env";
+import { DatabaseSync } from "node:sqlite";
 import bcrypt from "bcryptjs";
-
-const MONGODB_URI = "mongodb://localhost:27017/website_backend";
-
-async function resetAdmin() {
+import { randomBytes } from "node:crypto";
+import path from "node:path";
+loadEnvConfig(process.cwd());
+if (!process.env.SQLITE_PATH || !process.env.ADMIN_EMAIL || !process.env.ADMIN_PASSWORD) throw new Error("Set SQLITE_PATH, ADMIN_EMAIL and ADMIN_PASSWORD in .env");
+const db = new DatabaseSync(path.resolve(process.env.SQLITE_PATH));
+try {
+  db.exec("CREATE TABLE IF NOT EXISTS admins (_id TEXT PRIMARY KEY, email TEXT NOT NULL UNIQUE, password TEXT NOT NULL, createdAt TEXT NOT NULL)");
+  const password = await bcrypt.hash(process.env.ADMIN_PASSWORD, 10);
+  db.exec("BEGIN IMMEDIATE");
   try {
-    await mongoose.connect(MONGODB_URI);
-    console.log("Connected to MongoDB");
-
-    // Drop existing admins
-    await mongoose.connection.db.collection("admins").deleteMany({});
-    console.log("Deleted existing admins");
-
-    // Create new admin with properly hashed password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash("admin123", salt);
-
-    await mongoose.connection.db.collection("admins").insertOne({
-      email: "admin@example.com",
-      password: hashedPassword,
-      createdAt: new Date(),
-    });
-    console.log("Created new admin: admin@example.com / admin123");
-
-    await mongoose.disconnect();
-    console.log("Done!");
-    process.exit(0);
-  } catch (error) {
-    console.error("Error:", error);
-    process.exit(1);
-  }
-}
-
-resetAdmin();
+    db.prepare("DELETE FROM admins").run();
+    db.prepare("INSERT INTO admins VALUES (?, ?, ?, ?)").run(randomBytes(12).toString("hex"), process.env.ADMIN_EMAIL.trim().toLowerCase(), password, new Date().toISOString());
+    db.exec("COMMIT");
+  } catch (error) { db.exec("ROLLBACK"); throw error; }
+  console.log("Admin account reset.");
+} finally { db.close(); }

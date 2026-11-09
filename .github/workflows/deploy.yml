@@ -24,8 +24,6 @@ jobs:
         run: npm run build
         env:
           NODE_ENV: production
-          # Real value is provided at runtime by PM2 on the server; this only satisfies the build-time check
-          MONGODB_URI: "mongodb://dummy-string-just-to-pass-the-build-check"
 
       - name: Prepare Standalone Output
         run: |
