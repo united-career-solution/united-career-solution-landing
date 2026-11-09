@@ -32,10 +32,16 @@ Open [http://localhost:3000](http://localhost:3000). Node.js 24 is required. Set
 | `JWT_SECRET` | Secret used to sign admin login tokens |
 | `ADMIN_EMAIL` / `ADMIN_PASSWORD` | Admin account created on first DB connection if no admin exists |
 
-To migrate existing MongoDB data, set both paths in .env.local and run
-`node scripts/migrate-mongodb.mjs` before starting the app. The destination tables
+To migrate existing MongoDB data, install MongoDB Shell (`mongosh`) and use Node.js
+24. Set `SQLITE_PATH` and `MONGODB_URI` in `.env.local` or `.env`, then run
+`node scripts/migrate-mongodb.mjs` from the application directory before starting
+the app. No npm packages are needed. The destination tables
 must be empty; migration preserves IDs and password hashes and is transactional.
 Stop writes to MongoDB during migration. Back up the databases before migrating.
+The deploy action copies the script to
+`/var/www/united-career-solution/landing/scripts/migrate-mongodb.mjs`. It reads
+relative SQLite paths from the current working directory. The deployed app must
+be stopped before migration; it creates an admin on its first database access.
 
 To reset the admin account using the configured credentials, run
 `node scripts/reset-admin.mjs`.

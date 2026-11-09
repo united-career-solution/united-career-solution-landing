@@ -27,6 +27,8 @@ jobs:
 
       - name: Prepare Standalone Output
         run: |
+          mkdir -p .next/standalone/scripts
+          cp scripts/migrate-mongodb.mjs .next/standalone/scripts/
           cp -R public .next/standalone/ || true
           cp -R .next/static .next/standalone/.next/ || true
 
