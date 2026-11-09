@@ -213,7 +213,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 w-full z-10 pt-24 lg:pt-0 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-2">
           <div className="w-full lg:w-[45%] text-center lg:text-left flex flex-col justify-center">
             <AnimatedHeadline
-              text="Your Next Opportunity Starts Here."
+              text="Stop Applying Blindly. Start Getting Hired."
               delay={0.2}
               className="text-5xl md:text-6xl lg:text-[4rem] font-bold tracking-tight text-brand-dark leading-tight justify-center lg:justify-start mb-6"
             />
